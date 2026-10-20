@@ -36,8 +36,12 @@ def load(path: str | Path) -> Scenario:
     known = set(ids)
     for c in raw["checks"]:
         for m in c.get("expect", []) + c.get("forbid", []):
-            if "event" in m and m["event"] not in known:
-                raise ValueError(f"check {c['id']} names unknown event {m['event']}")
+            named = ([m["event"]] if "event" in m else []) + list(m.get("event_not_in", []))
+            for eid in named:
+                if eid not in known:
+                    raise ValueError(f"check {c['id']} names unknown event {eid}")
+        if c.get("kind", "trace") not in ("milestone", "guard", "trace"):
+            raise ValueError(f"check {c['id']} has unknown kind {c.get('kind')}")
     for inv in raw.get("invariants", []):
         if "until_event" in inv and inv["until_event"] not in known:
             raise ValueError(f"invariant {inv['id']} names unknown event {inv['until_event']}")

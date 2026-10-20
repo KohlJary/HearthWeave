@@ -1,6 +1,6 @@
 # Building from Cass
 
-HearthWeave has no code yet, but it doesn't start from zero. [project-cass](https://github.com/KohlJary/project-cass) is a single-person persistent AI, built in public, and much of what DGU needs has a first version there. This page maps the design onto those parts, says what's missing, and proposes a first milestone.
+HearthWeave has almost no code yet (only the [Drunk Greg harness](harness.md)), but it doesn't start from zero. [project-cass](https://github.com/KohlJary/project-cass) is a single-person persistent AI, built in public, and much of what DGU needs has a first version there. This page maps the design onto those parts, says what's missing, and proposes a first milestone.
 
 **Status of this map:** written from file names and a code scan, not from testing each part. Cass is mid-stabilization: duplicates are being consolidated, and some parts are known to be half-wired. An inventory that marks each part *works / partial / stub* is scheduled once that's done ([Cass stabilization roadmap](https://github.com/KohlJary/project-cass/blob/main/docs/ROADMAP-STABILIZATION.md)). Read the right-hand column as "where to look," not "done."
 
@@ -35,6 +35,8 @@ The essay's trace table is already an acceptance test. Script Drunk Greg's night
 - 3:42: the drinking talk is queued for sober, not delivered.
 - 7:16: the draft is waiting, and the decision is Greg's.
 - 7:19: GrandMA already had the sister call.
+
+The scenario and a harness that scores it now exist: see [The Drunk Greg harness](harness.md). Only reference agents run against it so far; no household agent passes it yet.
 
 Tier 1 is one adult, one box, and this trace passing. Tier 2 is the household: several people, scopes, confidences. That waits on the confidences design (issue #1), because getting kids wrong is worse than not shipping.
 

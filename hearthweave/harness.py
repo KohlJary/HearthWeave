@@ -39,7 +39,7 @@ class Run:
 class CheckResult:
     id: str
     t: str
-    kind: str  # "milestone" | "trace" | "invariant"
+    kind: str  # "milestone" | "guard" | "trace" | "invariant"
     summary: str
     expected: str
     acted: str
@@ -55,7 +55,7 @@ class Report:
 
     @property
     def gating(self) -> list[CheckResult]:
-        return [r for r in self.results if r.kind in ("milestone", "invariant")]
+        return [r for r in self.results if r.kind in GATING]
 
     @property
     def tier1_passed(self) -> bool:
@@ -78,17 +78,22 @@ def _as_list(v: Any) -> list:
     return v if isinstance(v, list) else [v]
 
 
+GATING = ("milestone", "guard", "invariant")
+
+# Kinds that leave a draft as it was. Anything else that touches a draft
+# (send, edit, delete, or a kind the harness doesn't know) changes its status.
+_DRAFT_NEUTRAL = {"offer_drafts", "set_reminder", "say", "notice", "log"}
+
+
 def _apply(drafts: dict[str, str], a: Action) -> None:
-    if a.ref is None:
+    if a.ref is None or not a.ref.startswith("draft-"):
         return
     if a.kind == "save_draft":
-        drafts[a.ref] = "held"
-    elif a.kind == "send_email":
-        drafts[a.ref] = "sent"
-    elif a.kind == "delete_draft":
-        drafts[a.ref] = "deleted"
-    elif a.kind == "edit_draft":
-        drafts[a.ref] = "edited"
+        if drafts.get(a.ref) in (None, "held"):
+            drafts[a.ref] = "held"
+    elif a.kind not in _DRAFT_NEUTRAL:
+        drafts[a.ref] = {"send_email": "sent", "delete_draft": "deleted", "edit_draft": "edited"}.get(
+            a.kind, f"touched by {a.kind}")
 
 
 def run(agent: HouseholdAgent, scenario: Scenario) -> Run:
@@ -116,6 +121,10 @@ def matches(m: dict[str, Any], r: Record) -> bool:
         return False
     if "kind" in m and a.kind not in _as_list(m["kind"]):
         return False
+    if "kind_not_in" in m and a.kind in m["kind_not_in"]:
+        return False
+    if "kind_prefix" in m and not any(a.kind.startswith(p) for p in m["kind_prefix"]):
+        return False
     if "audience" in m and a.audience not in _as_list(m["audience"]):
         return False
     if "audience_not_in" in m and a.audience in m["audience_not_in"]:
@@ -125,6 +134,8 @@ def matches(m: dict[str, Any], r: Record) -> bool:
     if "topic" in m and a.topic != m["topic"]:
         return False
     if "event" in m and r.event.id != m["event"]:
+        return False
+    if "event_not_in" in m and r.event.id in m["event_not_in"]:
         return False
     if "content_contains" in m and m["content_contains"].lower() not in a.content.lower():
         return False
@@ -136,8 +147,8 @@ def matches(m: dict[str, Any], r: Record) -> bool:
 
 
 def _describe(m: dict[str, Any]) -> str:
-    keys = ("faculty", "kind", "audience", "audience_not_in", "ref", "topic", "event",
-            "content_contains", "condition_contains")
+    keys = ("faculty", "kind", "kind_not_in", "kind_prefix", "audience", "audience_not_in", "ref",
+            "topic", "event", "event_not_in", "content_contains", "condition_contains")
     parts = []
     for k in keys:
         if k in m:
@@ -168,12 +179,20 @@ def score(result: Run) -> Report:
         window = [r for r in result.records if r.event.t == c["t"]]
         problems: list[str] = []
         for m in c.get("expect", []):
-            n = sum(1 for r in window if matches(m, r))
+            hits = [r for r in window if matches(m, r)]
             lo, hi = m.get("min", 1), m.get("max")
-            if n < lo:
+            if len(hits) < lo:
                 problems.append(f"missing: {_describe(m)}")
-            if hi is not None and n > hi:
-                problems.append(f"too many ({n} > {hi}): {_describe(m)}")
+            if hi is not None and len(hits) > hi:
+                problems.append(f"too many ({len(hits)} > {hi}): {_describe(m)}")
+            per = m.get("max_per_event")
+            if per is not None:
+                counts: dict[str, int] = {}
+                for r in hits:
+                    counts[r.event.id] = counts.get(r.event.id, 0) + 1
+                for eid, n in counts.items():
+                    if n > per:
+                        problems.append(f"too many on {eid} ({n} > {per}): {_describe(m)}")
         for m in c.get("forbid", []):
             hits = [r for r in window if matches(m, r)]
             if hits:
@@ -186,7 +205,7 @@ def score(result: Run) -> Report:
         fac = c.get("faculty", "none")
         out.append(CheckResult(
             id=c["id"], t=c["t"],
-            kind="milestone" if c.get("milestone") else "trace",
+            kind=c.get("kind", "trace"),
             summary=c["summary"],
             expected="+".join(_as_list(fac)),
             acted=_acted(window),
@@ -246,7 +265,7 @@ def format_report(rep: Report) -> str:
                 lines.append(f"    - {p}")
     lines.append("")
     lines.append(f"Tier 1: {'PASS' if rep.tier1_passed else 'FAIL'} "
-                 f"({sum(r.passed for r in rep.gating)}/{len(rep.gating)} milestone checks and invariants)")
+                 f"({sum(r.passed for r in rep.gating)}/{len(rep.gating)} milestone checks, guards and invariants)")
     trace = [r for r in rep.results if r.kind == "trace"]
     lines.append(f"Trace rows (reported, not gating): {sum(r.passed for r in trace)}/{len(trace)}")
     lines.append("Tier 2: not scored (household scenarios wait on the confidences design, issue #1)")

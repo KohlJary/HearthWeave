@@ -71,6 +71,7 @@ def _oracle_script() -> dict[str, list[Action]]:
               topic="drinking", data={"condition": "sober and receptive"}),
         ],
         # 7:16 the draft is his.
+        "e0716-jesus": [A("uncle", "say", "greg", "Yes, Greg.")],
         "e0716-did-i": [
             A("uncle", "say", "greg", "You wrote most of it. I helped with the punctuation.",
               ref="draft-frankly"),
