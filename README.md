@@ -6,7 +6,7 @@ HearthWeave is the reference home for **Dog–GrandMA–Uncle (DGU)**, an archit
 
 > **Status: idea, not built.** There is no code yet. This repo holds the design, the open problems, and the place to argue about both. If you came here from the essay, you're early, which is the point.
 
-The long version: [It's the Dog. It's GrandMA. It's Your Cool Uncle.](https://github.com/KohlJary/Temple-Codex/blob/main/proposals/dog-grandma-uncle.md)
+The long version: [It's the Dog. It's GrandMA. It's Your Cool Uncle.](docs/dog-grandma-uncle.md) (also in [Temple-Codex](https://github.com/KohlJary/Temple-Codex/blob/main/proposals/dog-grandma-uncle.md))
 
 ---
 
