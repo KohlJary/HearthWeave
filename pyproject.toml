@@ -1,0 +1,17 @@
+[project]
+name = "hearthweave"
+version = "0.0.1"
+description = "HearthWeave reference implementation: the Drunk Greg scenario harness"
+requires-python = ">=3.10"
+license = {file = "LICENSE.md"}
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools]
+packages = ["hearthweave"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
