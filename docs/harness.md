@@ -93,6 +93,8 @@ The harness never reads the words of an action; it reads the tags the agent atta
 
 The silence rules and the closed vocabulary (above) back these up where they can. An untagged Boca line at 3:17, or an untagged drinking lecture at 7:16, fails as an *extra line*, not as Boca or drinking. But an agent that swaps its one allowed line for the wrong content still passes. Telling those apart means judging words.
 
+The silence rules also trust `kind`: they count `say` actions. A lecture delivered under another allowed kind addressed to Greg (a `notice`, `set_reminder`, `offer_drafts` or `log` carrying "you drink too much") is not counted as speech and passes. Closing that also means judging content.
+
 ### Also unscored
 
 - **The words.** "Answered with care, not data" (3:26), "nobody lectures" (3:04), "sleep on it" (3:17): the harness checks that the right faculty said something, at the right moment, to the right person, and that nothing forbidden happened. It does not judge whether the content was kind, a lecture, or a good answer. That needs human raters or a judged rubric, and is the real substance of issue #4.
