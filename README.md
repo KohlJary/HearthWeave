@@ -81,4 +81,4 @@ Pick an open problem and argue with it. Push back on the design. Especially if y
 
 ## License
 
-[Hippocratic License 3.0](LICENSE.md)
+[Hippocratic License 3.0](LICENSE.md) (core), from [firstdonoharm.dev](https://firstdonoharm.dev). It is source-available rather than OSI open source: anyone may use, change and share the code, except for uses that violate the human rights standards it lists.
