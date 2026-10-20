@@ -1,6 +1,6 @@
 # Starter issues
 
-To be opened on the repo once it exists. Each is an open design problem, not a task.
+These are open as [issues #1–#6](https://github.com/KohlJary/HearthWeave/issues). Each is an open design problem, not a task. The text below is the original draft of each.
 
 ## 1. The Uncle's confidences: when does "I have to tell your parents" kick in?
 

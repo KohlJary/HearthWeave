@@ -61,6 +61,15 @@ These are tracked as issues. They are the real work.
 - **Substrate.** What runs on the box, and what (if anything) ever leaves it.
 - **U2U.** Consent model, message format, store-and-forward, and what an uncle may never forward.
 
+Not opened as issues yet:
+
+- **The Dog's senses.** Presence means perceiving the house: microphones, cameras, door sensors. What does the Dog sense, what does it keep, and for how long? Rule 3 has to survive the sensor list, not just the conversation.
+- **Memory custody.** GrandMA outlives arrangements. Divorce (whose is Boca?), death (who inherits a parent's private memories?), a kid turning 18 (do their childhood confidences become theirs to delete?). Ownership by "the family" needs rules for when the family changes shape.
+- **Guests.** The babysitter, the friend sleeping on the couch, the neighbor at the barbecue. They're in the house but not in the family. What may the Dog notice about them, and what may GrandMA remember?
+- **Backups and failure.** A memory that's meant to last generations can't live on one disk. Backups on by default, restore that's tested, and the family told when one fails.
+
+How this maps onto existing work, and a proposed first milestone: [Building from Cass](docs/building-from-cass.md).
+
 ## Prior work
 
 - [Temple-Codex](https://github.com/KohlJary/Temple-Codex): identity constitutions; the framework under DGU
