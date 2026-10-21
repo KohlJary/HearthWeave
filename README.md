@@ -28,7 +28,7 @@ She distinguishes kinds of memory instead of keeping one pile:
 | Heritage | the lasagna recipe | belongs to the whole family |
 | Episodic | what happened in Boca | surfaces only if the person raises it |
 
-That's **retrieval by relationship, not relevance**: what a memory means to the family decides when it comes up, not how similar it looks to the current message.
+That's **retrieval by relationship, not relevance**: what a memory means to the family decides when it comes up, not how similar it looks to the current message. The full privacy model is [Egg–Recipe–Boca](docs/egg-recipe-boca.md).
 
 **Uncle: candor.** Decides whether and when to say the true thing. Candor without timing is nagging, so the Uncle's main skill is waiting. It offers drafts, not orders. It proposes and never enforces. And it's *your* cool uncle: it can interview your actual uncle and carry his stories and voice forward.
 
