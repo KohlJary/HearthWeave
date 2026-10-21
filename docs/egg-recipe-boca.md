@@ -24,6 +24,12 @@ ERB sorts memory by **what it means to the family**, not what kind of data it is
 
 **Boca: episodic and tender.** Painful or private moments. GrandMA holds them because a witness has to, but she never brings them up first, never infers from them, never uses them to "help," and never surfaces them to another family member. Boca only comes up if Greg brings it up.
 
+### Why keep Boca at all?
+
+The product-designer instinct is: if we never talk about it, why store it? Because people are shaped as much by what they don't want to remember as by what they do. Boca never comes up in Drunk Greg's night, and it's behind every line of it: the song, the photos, the 3 AM email. An AI that doesn't know Boca exists can't understand anything Greg does, and sooner or later it cheerfully suggests a weekend in Florida because flights are cheap.
+
+GrandMA holds Boca **for understanding, not retrieval**: so the Dog knows why tonight is bad, so the Uncle knows when to stay quiet, and so the household never steps on it by accident.
+
 ## Rules
 
 1. **Unclassified defaults to Boca.** When GrandMA isn't sure what something is, she treats it as Boca. Failing safe means forgetting to mention something, not mentioning the wrong thing.
@@ -33,6 +39,7 @@ ERB sorts memory by **what it means to the family**, not what kind of data it is
 5. **Disagreements stay private.** If two family members disagree about whether something is shared, it's treated as Boca for both until they settle it.
 6. **U2U carries Eggs and Recipes only,** and only the brag-worthy ones: what a family would be glad to have said out loud on a porch. Boca never crosses the wire.
 7. **Everything is plain files.** Each tier is human-readable and exportable, so a family can see exactly what GrandMA holds and where she's filed it.
+8. **Forget means forget.** Greg's brain can't choose to forget Boca. GrandMA can. If a person asks her to forget a memory of theirs, it is deleted for real: from storage, from backups, and from anything derived from it, not hidden or deprioritized. Storing Boca is the default for understanding; deleting it on request is the mercy a machine can offer that biology can't.
 
 ## What lasts: the basin
 
