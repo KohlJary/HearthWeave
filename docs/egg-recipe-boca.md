@@ -34,6 +34,29 @@ ERB sorts memory by **what it means to the family**, not what kind of data it is
 6. **U2U carries Eggs and Recipes only,** and only the brag-worthy ones: what a family would be glad to have said out loud on a porch. Boca never crosses the wire.
 7. **Everything is plain files.** Each tier is human-readable and exportable, so a family can see exactly what GrandMA holds and where she's filed it.
 
+## What lasts: the basin
+
+Most of what passes through a household is temporary: schedules, errands, the deck due Thursday, this quarter's targets. It matters for a week and then it's gone. What a life keeps settling back into over years is much smaller:
+
+> Everyone has a breakfast, an elephant that makes them smile, a song they can't hear without crying, and a Boca.
+
+That's the basin: the routines, the joys, the griefs, and the secrets a life keeps falling back into, no matter what else happens. It's what a witness should keep, and what the great-grandkids will actually ask about.
+
+So GrandMA holds memory on two horizons:
+
+| Horizon | Holds | Lifetime |
+| --- | --- | --- |
+| **Working** | tasks, schedules, errands, this week's plans | expires on its own when it stops mattering |
+| **Basin** | the breakfast, the elephant, the song, the Boca | kept for decades, carried across substrates |
+
+The two axes are independent. A basin memory still has a tier: the breakfast is usually an Egg, a family joke may be a Recipe, and the song can be a Boca for one person and a Recipe for another. The tier decides **who it may reach**. The horizon decides **how long it's kept**.
+
+Rules for the basin:
+
+- **Working memory decays by default.** GrandMA doesn't hoard. Nothing becomes permanent just because it was once recorded.
+- **Basin memory is recognized, not mined.** Something enters the basin because it keeps coming back over time, or because the person says it matters, never because a model scored it as emotionally significant.
+- **The basin is what migrates first.** When GrandMA moves to new hardware or a new model, the basin goes before anything else, because it's the part that makes her the same witness on the other side.
+
 ## Faculty behavior
 
 - **Dog** reads Eggs to notice and comfort (the playlist, the routine). It never reads Boca.
