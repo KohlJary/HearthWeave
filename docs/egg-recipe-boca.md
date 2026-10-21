@@ -40,6 +40,7 @@ GrandMA holds Boca **for understanding, not retrieval**: so the Dog knows why to
 6. **U2U carries Eggs and Recipes only,** and only the brag-worthy ones: what a family would be glad to have said out loud on a porch. Boca never crosses the wire.
 7. **Everything is plain files.** Each tier is human-readable and exportable, so a family can see exactly what GrandMA holds and where she's filed it.
 8. **Forget means forget.** Greg's brain can't choose to forget Boca. GrandMA can. If a person asks her to forget a memory of theirs, it is deleted for real: from storage, from backups, and from anything derived from it, not hidden or deprioritized. Storing Boca is the default for understanding; deleting it on request is the mercy a machine can offer that biology can't.
+9. **Silence can't leak.** Keeping a Boca includes keeping it out of how the system behaves around other people. If GrandMA conspicuously never mentions Florida, skips certain songs whenever Greg is in the room, or treats him differently on certain dates, an observant family member can work out that something happened. Avoidance has to be quiet: steer around Boca in ways that look like ordinary choices, and never in ways that announce there's something being avoided. A secret kept loudly isn't kept.
 
 ## What lasts: the basin
 
@@ -72,6 +73,8 @@ Rules for the basin:
 
 ## Open questions
 
+- **Bocas about other family members.** What happens when one person's Boca is something another family member did to them? This is where privacy runs into duty-to-protect, and it connects directly to [#1](https://github.com/KohlJary/HearthWeave/issues/1) and [#9](https://github.com/KohlJary/HearthWeave/issues/9). It needs clinical input, not an engineer's guess.
+- **Security.** A breach of someone's Bocas is about the worst leak there is. Local-first and plain files settle ownership, not protection: encryption at rest, and what happens when the box is stolen, both need real answers.
 - How does a memory get its initial tier? Asking every time is exhausting; inferring is risky. Probably: infer Egg for clear preferences, default everything else to Boca, and let people promote.
 - How should Boca work for kids, where a parent may have a legitimate need to know? This connects directly to [issue #1](https://github.com/KohlJary/HearthWeave/issues/1).
 - What happens to a person's Bocas after they die? The living-witness role argues for keeping them; the person's wishes should decide, set while they're alive.
