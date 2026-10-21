@@ -64,7 +64,7 @@ These are tracked as issues. They are the real work.
 Not opened as issues yet:
 
 - **The Dog's senses.** Presence means perceiving the house: microphones, cameras, door sensors. What does the Dog sense, what does it keep, and for how long? Rule 3 has to survive the sensor list, not just the conversation.
-- **Memory custody.** GrandMA outlives arrangements. Divorce (whose is Boca?), death (who inherits a parent's private memories?), a kid turning 18 (do their childhood confidences become theirs to delete?). Ownership by "the family" needs rules for when the family changes shape.
+- **Memory custody** ([#11](https://github.com/KohlJary/HearthWeave/issues/11): fork the instance, let ERB decide what each fork carries). GrandMA outlives arrangements. Divorce (whose is Boca?), death (who inherits a parent's private memories?), a kid turning 18 (do their childhood confidences become theirs to delete?). Ownership by "the family" needs rules for when the family changes shape.
 - **Guests.** The babysitter, the friend sleeping on the couch, the neighbor at the barbecue. They're in the house but not in the family. What may the Dog notice about them, and what may GrandMA remember?
 - **Backups and failure.** A memory that's meant to last generations can't live on one disk. Backups on by default, restore that's tested, and the family told when one fails.
 
