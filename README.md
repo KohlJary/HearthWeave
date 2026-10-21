@@ -48,7 +48,7 @@ Every design decision should survive the 3 AM night *and* the morning after. A f
 
 ## Downstream: U2U
 
-DGU instances in different households are proposed to talk over **Uncle 2 Uncle (U2U)**, a peer-to-peer, consent-gated protocol. Your uncle tells the neighbor's uncle about the barbecue. Each family decides what crosses the wire. **Status: proposed, not designed.**
+DGU instances in different households are proposed to talk over **Uncle 2 Uncle (U2U)**, a peer-to-peer, consent-gated protocol. Picture two uncles in lawn chairs, a few too many Schlitz in, bragging about their families. U2U carries brags, not data: only what a family would be glad to have said out loud on a porch. The kid made honor roll. Nobody mentions Boca. And the point isn't the uncles talking. Your uncle tells the neighbor's uncle about the barbecue so that *you* go to the barbecue. U2U exists to get people out of the house and hanging out with each other. **Status: proposed, not designed.**
 
 ## Open problems
 
