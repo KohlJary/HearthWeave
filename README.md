@@ -74,7 +74,9 @@ How this maps onto existing work, and a proposed first milestone: [Building from
 
 ## Style
 
-Names, voice, and how to render GrandMA (yellow, blinking, with reduced-motion respected): [docs/STYLE.md](docs/STYLE.md).
+**The names aren't decoration. The vocabulary encodes the design.** GrandMA's capital MA is AM in a mirror. Boca is capitalized and never explained because it's a tier defined by meaning, not data type. The 2 in Uncle 2 Uncle means peer-to-peer. Get a name wrong and you've usually gotten a design decision wrong with it.
+
+The full guide, including names, voice, and how to render GrandMA (yellow, blinking, reduced motion respected): [docs/STYLE.md](docs/STYLE.md).
 
 ## Prior work
 

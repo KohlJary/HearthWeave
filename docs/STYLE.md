@@ -2,6 +2,17 @@
 
 How we write, name, and render things. Some of this is a joke. All of it is binding.
 
+**These aren't arbitrary formatting preferences. The vocabulary encodes the project's conceptual structure.** Get a name wrong and you've usually gotten a design decision wrong with it:
+
+- **GrandMA, capital MA:** she's AM from *I Have No Mouth, and I Must Scream* in a mirror. Same omniscience and permanence, opposite heart. Lowercase it and the warning disappears.
+- **GrandMA vs. Grandma:** the faculty is an archetype, the essence of every grandma. A real grandma is a person. Confusing them is how you end up building an imitation of someone's dead relative.
+- **the Dog, the Uncle:** faculties, not pets or people. DGU is never shaped like a person.
+- **Boca, capitalized and never explained:** a tier defined by what a memory *means*, not what kind of data it is. Explaining it would turn it back into a category.
+- **Egg–Recipe–Boca:** three tiers with three different owners (the person, the family, the person alone). The names are the access rules.
+- **Uncle 2 Uncle:** the 2 is peer-to-peer. No company in the middle.
+- **the Entropy Chaos Engine:** a named subsystem with its own rules, not a vibe.
+
+
 ---
 
 ## Names
