@@ -8,6 +8,15 @@ HearthWeave is the reference home for **Dog–GrandMA–Uncle (DGU)**, an archit
 
 The long version: [It's the Dog. It's GrandMA. It's Your Cool Uncle.](docs/dog-grandma-uncle.md) (also in [Temple-Codex](https://github.com/KohlJary/Temple-Codex/blob/main/proposals/dog-grandma-uncle.md))
 
+## Start here
+
+1. **Read [the essay](docs/dog-grandma-uncle.md).** It's funny, it's profane, and the jokes are the spec. Fifteen minutes.
+2. **Skim [Egg–Recipe–Boca](docs/egg-recipe-boca.md).** The memory privacy model. If you only read one technical doc, read this one.
+3. **Run the harness.** `python -m pytest -q` from the repo root. Drunk Greg's night, as tests. ([docs/harness.md](docs/harness.md))
+4. **Pick an issue and argue with it.** Good first discussions: [#9 danger thresholds](https://github.com/KohlJary/HearthWeave/issues/9) if you know crisis work, [#2 Egg–Recipe–Boca](https://github.com/KohlJary/HearthWeave/issues/2) if you build memory systems, [#13 the rug](https://github.com/KohlJary/HearthWeave/issues/13) if you just want to have opinions about a dog.
+
+And read [the style guide](docs/STYLE.md) before naming anything. The vocabulary encodes the design.
+
 ---
 
 ## The design in one paragraph
@@ -54,21 +63,37 @@ DGU instances in different households are proposed to talk over **Uncle 2 Uncle 
 
 ## Open problems
 
-These are tracked as issues. They are the real work.
+These are tracked as issues. They are the real work. Every one of them is open, and every one of them is a place to tell me I'm wrong.
 
-- **Confidences.** What a kid tells the Uncle, and when "I have to tell your parents" kicks in. The hardest problem here.
-- **Memory classification.** How GrandMA decides what kind a memory is, and who can reclassify it.
-- **Arbitration.** How the identity constitution decides which faculty leads, and how that's tested.
-- **Evaluation.** How you measure "who the machine is."
-- **Substrate.** What runs on the box, and what (if anything) ever leaves it.
-- **U2U.** Consent model, message format, store-and-forward, and what an uncle may never forward.
+**The ones that keep people safe** (start here if you're a clinician, a privacy person, or just careful):
 
-Not opened as issues yet:
+- [**#1 Confidences.**](https://github.com/KohlJary/HearthWeave/issues/1) What a kid tells the Uncle, and when "I have to tell your parents" kicks in. The hardest problem here.
+- [**#9 Danger thresholds.**](https://github.com/KohlJary/HearthWeave/issues/9) From "sit quietly" to "get a human involved." A first draft from an engineer, not a clinician. Show me where it's wrong.
+- [**#15 The Dog's senses.**](https://github.com/KohlJary/HearthWeave/issues/15) Hear like a dog, not like a wiretap. Rule 3 has to survive the sensor list, not just the conversation.
+- [**#16 Guests.**](https://github.com/KohlJary/HearthWeave/issues/16) The babysitter, the couch friend, the plumber, the mother-in-law. In the house, not in the family. Courtesy tier only.
 
-- **The Dog's senses.** Presence means perceiving the house: microphones, cameras, door sensors. What does the Dog sense, what does it keep, and for how long? Rule 3 has to survive the sensor list, not just the conversation.
-- **Memory custody** ([#11](https://github.com/KohlJary/HearthWeave/issues/11): fork the instance, let ERB decide what each fork carries). GrandMA outlives arrangements. Divorce (whose is Boca?), death (who inherits a parent's private memories?), a kid turning 18 (do their childhood confidences become theirs to delete?). Ownership by "the family" needs rules for when the family changes shape.
-- **Guests.** The babysitter, the friend sleeping on the couch, the neighbor at the barbecue. They're in the house but not in the family. What may the Dog notice about them, and what may GrandMA remember?
-- **Backups and failure.** A memory that's meant to last generations can't live on one disk. Backups on by default, restore that's tested, and the family told when one fails.
+**Memory** (GrandMA's department):
+
+- [**#2 Egg–Recipe–Boca.**](https://github.com/KohlJary/HearthWeave/issues/2) Retrieval by relationship, not relevance. Why GrandMA keeps Boca and never says it.
+- [**#11 Custody.**](https://github.com/KohlJary/HearthWeave/issues/11) Fork the instance, let ERB decide what each fork carries. Divorce, death, a kid turning 18.
+- [**#17 Backups and failure.**](https://github.com/KohlJary/HearthWeave/issues/17) GrandMA can't live on one disk next to a dog. A backup is not a loophole.
+
+**How it decides and how it's measured:**
+
+- [**#3 Arbitration.**](https://github.com/KohlJary/HearthWeave/issues/3) Who speaks: the Dog, GrandMA, or the Uncle.
+- [**#4 Evaluating "who the machine is."**](https://github.com/KohlJary/HearthWeave/issues/4) The Drunk Greg harness is the first fixture.
+- [**#12 SchlitzBench.**](https://github.com/KohlJary/HearthWeave/issues/12) Personality loose, judgment stone-cold sober. Malort is the red team.
+- [**#5 Substrate and the box.**](https://github.com/KohlJary/HearthWeave/issues/5) What runs on the box, and what (if anything) ever leaves it.
+
+**Character** (the stuff that makes it family, not an appliance):
+
+- [**#13 The Dog shits on the rug.**](https://github.com/KohlJary/HearthWeave/issues/13) Unoptimized presence, always recoverable. A Roomba is judged on function; a dog is also valued for being there.
+- [**#14 The Entropy Chaos Engine.**](https://github.com/KohlJary/HearthWeave/issues/14) The Uncle pitches capers. Surprise-party rules apply.
+
+**Between houses:**
+
+- [**#6 U2U: Uncle 2 Uncle.**](https://github.com/KohlJary/HearthWeave/issues/6) Consider two spherical uncles in frictionless lawn chairs.
+- [**#10 Unclenet.**](https://github.com/KohlJary/HearthWeave/issues/10) 1999-style family homepages. MIDI autoplay strongly encouraged, mute button required.
 
 How this maps onto existing work, and a proposed first milestone: [Building from Cass](docs/building-from-cass.md).
 
