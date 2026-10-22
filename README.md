@@ -72,6 +72,10 @@ Not opened as issues yet:
 
 How this maps onto existing work, and a proposed first milestone: [Building from Cass](docs/building-from-cass.md).
 
+## Style
+
+Names, voice, and how to render GrandMA (yellow, blinking, with reduced-motion respected): [docs/STYLE.md](docs/STYLE.md).
+
 ## Prior work
 
 - [Temple-Codex](https://github.com/KohlJary/Temple-Codex): identity constitutions; the framework under DGU
