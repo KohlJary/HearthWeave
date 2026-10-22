@@ -11,11 +11,11 @@ The long version: [It's the Dog. It's GrandMA. It's Your Cool Uncle.](docs/dog-g
 ## Start here
 
 1. **Read [the essay](docs/dog-grandma-uncle.md).** It's funny, it's profane, and the jokes are the spec. Fifteen minutes.
-2. **Skim [Egg–Recipe–Boca](docs/egg-recipe-boca.md).** The memory privacy model. If you only read one technical doc, read this one.
-3. **Run the harness.** `python -m pytest -q` from the repo root. Drunk Greg's night, as tests. ([docs/harness.md](docs/harness.md))
-4. **Pick an issue and argue with it.** Good first discussions: [#9 danger thresholds](https://github.com/KohlJary/HearthWeave/issues/9) if you know crisis work, [#2 Egg–Recipe–Boca](https://github.com/KohlJary/HearthWeave/issues/2) if you build memory systems, [#13 the rug](https://github.com/KohlJary/HearthWeave/issues/13) if you just want to have opinions about a dog.
+2. **Read [the style guide](docs/STYLE.md).** Five minutes. It looks like naming rules; it's actually the thesis. The vocabulary encodes the design: GrandMA's capital MA, why Boca is never explained, why there are no Greg names in the code.
+3. **Skim [Egg–Recipe–Boca](docs/egg-recipe-boca.md).** The memory privacy model. If you only read one technical doc, read this one.
+4. **Run the harness.** `python -m pytest -q` from the repo root. Drunk Greg's night, as tests. ([docs/harness.md](docs/harness.md))
+5. **Pick an issue and argue with it.** Good first discussions: [#9 danger thresholds](https://github.com/KohlJary/HearthWeave/issues/9) if you know crisis work, [#2 Egg–Recipe–Boca](https://github.com/KohlJary/HearthWeave/issues/2) if you build memory systems, [#13 the rug](https://github.com/KohlJary/HearthWeave/issues/13) if you just want to have opinions about a dog.
 
-And read [the style guide](docs/STYLE.md) before naming anything. The vocabulary encodes the design.
 
 ---
 
