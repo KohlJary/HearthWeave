@@ -86,7 +86,7 @@ Rules that keep the bit from hurting anyone:
 
 - **Profane where it's load-bearing.** Swears go where the meaning is: before the word that carries the joke, on the turn of the argument. The tender scenes are clean on purpose.
 - **Status labels on every claim.** Built / partial / idea / proposed. The unhinged voice is only trustworthy because the ledger is honest.
-- **Jokes are structural.** If cutting a joke would take a design concept with it, it stays. If you can cut a joke and lose nothing, think harder before cutting it. "Nothing" is usually wrong: the joke may be carrying the voice, the delight, or the reason someone kept reading, and getting a little sillier on purpose is the thesis.
+- **Jokes are structural.** If cutting a joke would take a design concept with it, it stays. If you can cut a joke and lose nothing, think harder before cutting it. "Nothing" is usually wrong: the joke may be carrying the voice, the delight, or the reason someone kept reading, and getting a little sillier on purpose is the thesis. **Silly is how you don't build the Torment Nexus.** The unspeakable-horror version of this product is one sober, reasonable decision away at every step. The jokes are how we notice.
 - **Know the room.** *Wives fucked per line of code* is for engineers. Therapists, families, and the Foundation get the same honesty without that image.
 - **No dashboard euphemisms.** Not "user trust impact." Say what it does to a person.
 
