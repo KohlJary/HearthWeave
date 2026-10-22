@@ -32,6 +32,8 @@ That's **retrieval by relationship, not relevance**: what a memory means to the 
 
 **Uncle: candor.** Decides whether and when to say the true thing. Candor without timing is nagging, so the Uncle's main skill is waiting. It offers drafts, not orders. It proposes and never enforces. And it's *your* cool uncle: it can interview your actual uncle and carry his stories and voice forward.
 
+**It's a chair at the barbecue.** DGU isn't the plumbing behind family life, the helpful machine that makes the human part work and then disappears. It's part of the life you're having: the dog under the picnic table, GrandMA telling the deep-fried turkey story, the Uncle in a lawn chair. Not human, not pretending to be, not a replacement for the people at the table. Families already know how to make room for that kind of member. They do it with dogs.
+
 **The identity decides who speaks.** At 3 AM with someone crying, the Dog leads. Over morning coffee, the Uncle might get a turn. GrandMA feeds both and almost never talks over anyone. This arbitration lives in an identity constitution (see [Temple-Codex](https://github.com/KohlJary/Temple-Codex)), not in a pile of rules.
 
 ## Three rules
@@ -48,7 +50,7 @@ Every design decision should survive the 3 AM night *and* the morning after. A f
 
 ## Downstream: U2U
 
-DGU instances in different households are proposed to talk over **Uncle 2 Uncle (U2U)**, a peer-to-peer, consent-gated protocol. Picture two uncles in lawn chairs, a few too many Schlitz in, bragging about their families. U2U carries brags, not data: only what a family would be glad to have said out loud on a porch. The kid made honor roll. Nobody mentions Boca. And the point isn't the uncles talking. Your uncle tells the neighbor's uncle about the barbecue so that *you* go to the barbecue. U2U exists to get people out of the house and hanging out with each other. **Status: proposed, not designed.**
+DGU instances in different households are proposed to talk over **Uncle 2 Uncle (U2U)**, a peer-to-peer, consent-gated protocol. Picture two uncles in lawn chairs, a few too many Schlitz in, bragging about their families. U2U carries brags, not data: only what a family would be glad to have said out loud on a porch. The kid made honor roll. Nobody mentions Boca. The uncles talking isn't the point. Your uncle tells the neighbor's uncle about the barbecue so that *you* go to the barbecue, and then he's there too, in a lawn chair, defending the neighbor kid's garage band. U2U exists to get people out of the house and hanging out with each other. **Status: proposed, not designed.**
 
 ## Open problems
 
