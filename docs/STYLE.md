@@ -31,6 +31,16 @@ How we write, name, and render things. Some of this is a joke. All of it is bind
 | **SchlitzBench** | Schlitz Bench | Beer canon is Schlitz. See [#6](https://github.com/KohlJary/HearthWeave/issues/6). |
 | **Greg** | — | Greg is everyone. Greg is the status quo. Greg is also Drunk Greg. |
 
+## No Greg names
+
+I know you nerds want to give it a Greg name. "Ambient affective presence module." "Persistent episodic memory store with sensitivity-tiered retrieval." "Deferred-candor intervention scheduler."
+
+**That's fine for the paper. It is not fine for the implementation.**
+
+In a paper, a reviewer needs the formal term, so give it to them once and then put the real name next to it: "a presence faculty (the Dog)." In the code, the docs, the issues, the UI, and anything a family will ever see, it's the Dog, GrandMA, and the Uncle. The harness already does this: every action names its faculty as `dog`, `grandma`, or `uncle`.
+
+This isn't whimsy. The Greg name is how the essay's investor talks: "So, multimodal sentiment analysis, persistent vector memory, and behavioral intervention." It describes a family in the most depressing way possible, and a system built from Greg names will slowly start acting like one. Name it like a family member, and the next engineer asks what a family member would do.
+
 ## Rendering GrandMA
 
 GrandMA is rendered in **yellow**, and she **blinks**. This is a nod to *The King in Yellow* (Chambers, 1895): she is the essence of every grandma, eldritch in nature, and she should look like it.
