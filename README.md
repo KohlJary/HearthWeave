@@ -4,7 +4,7 @@
 
 HearthWeave is the reference home for **Dog–GrandMA–Uncle (DGU)**, an architecture for a household AI that lives with a family for years: one member of the family, not a productivity tool.
 
-> **Status: idea, mostly not built.** The only code is a test harness: Drunk Greg's night as a replayable scenario, scored against reference agents ([docs/harness.md](docs/harness.md)). No household agent exists yet. But it doesn't start from zero: much of DGU has a first version in [Cass](https://github.com/KohlJary/project-cass), a persistent AI built in public for a year. Here's [what exists, what's half-built, and what's new](docs/building-from-cass.md). This repo holds the design, the open problems, and the place to argue about both. If you came here from the essay, you're early, which is the point.
+> **Status: idea, mostly not built.** The only code is a test harness: Drunk Greg's night as a replayable scenario, scored against reference agents ([docs/harness.md](docs/harness.md)). No household agent exists yet. But it doesn't start from zero: much of DGU has a first version in [Cass](https://github.com/KohlJary/project-cass), a persistent AI built in public for a year. Here's [what exists, what's half-built, and what's new](docs/building-from-cass.md). This repo holds the design, the open problems, and the place to argue about both. That's on purpose: I'm hashing out the design in here before the code so I write the correct fucking code. If you came here from the essay, you're early, which is the point.
 
 The long version: [It's the Dog. It's GrandMA. It's Your Cool Uncle.](docs/dog-grandma-uncle.md) (also in [Temple-Codex](https://github.com/KohlJary/Temple-Codex/blob/main/proposals/dog-grandma-uncle.md))
 
