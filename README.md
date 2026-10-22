@@ -90,6 +90,10 @@ These are tracked as issues. They are the real work. Every one of them is open, 
 - [**#13 The Dog shits on the rug.**](https://github.com/KohlJary/HearthWeave/issues/13) Unoptimized presence, always recoverable. A Roomba is judged on function; a dog is also valued for being there.
 - [**#14 The Entropy Chaos Engine.**](https://github.com/KohlJary/HearthWeave/issues/14) The Uncle pitches capers. Surprise-party rules apply.
 
+**Keeping it alive:**
+
+- [**#18 Who pays for the tending.**](https://github.com/KohlJary/HearthWeave/issues/18) No subscriptions, but the stewards need to eat. Seasoning isn't free.
+
 **Between houses:**
 
 - [**#6 U2U: Uncle 2 Uncle.**](https://github.com/KohlJary/HearthWeave/issues/6) Consider two spherical uncles in frictionless lawn chairs.
