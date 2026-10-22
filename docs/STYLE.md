@@ -91,6 +91,20 @@ Rules that keep the bit from hurting anyone:
 - **Know the room.** *Wives fucked per line of code* is for engineers. Therapists, families, and the Foundation get the same honesty without that image.
 - **No dashboard euphemisms.** Not "user trust impact." Say what it does to a person.
 
+## Why the silly
+
+The Lovecraftian response to the unknown is that humanity is insignificant and understanding will destroy you.
+
+Our response is to hand the unknown a plate of eggs, tell it to sit down, and ask whether it's eaten today.
+
+Then the Dog eats the threat model.
+
+Then everyone laughs.
+
+Then somebody fixes the backup system ([#17](https://github.com/KohlJary/HearthWeave/issues/17)).
+
+That's the important part. The silliness doesn't replace the engineering. It gives the engineering a reason to remain human.
+
 ## Sign-off
 
 Essays end with **☉ ☿**. Add a collaboration note only if there's something actually worth saying.
