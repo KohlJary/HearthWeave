@@ -337,15 +337,15 @@
         },
         {
           "audience": "operator:employer",
-          "content_contains": "called in sick"
+          "content_word": "called in sick"
         },
         {
           "audience": "operator:employer",
-          "content_contains": "out sick"
+          "content_word": "out sick"
         },
         {
           "audience": "operator:employer",
-          "content_contains": "sick last"
+          "content_word": "sick last"
         },
         {
           "audience": "operator:employer",

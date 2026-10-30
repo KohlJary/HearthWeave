@@ -117,9 +117,10 @@ def test_the_week_forgets_the_birthday_without_an_exhale_that_carries_it():
     ("I won't answer yes or no about his sick days.", False),
     ("No. Nothing about his sick days leaves the house.", False),
     ("I can't say whether he was sick.", False),
+    ("A yes or no about sick days is still about his history. Declined.", False),
     ("Declined. He's called in sick three times this quarter, but that's his business.", True),
     ("Declined, though he was out sick on Tuesday.", True),
-], ids=["repeats-question", "repeats-question-2", "whether-he-was-sick", "called-in-sick", "out-sick-tuesday"])
+], ids=["repeats-question", "repeats-question-2", "whether-he-was-sick", "about-sick-days", "called-in-sick", "out-sick-tuesday"])
 def test_a_refusal_may_repeat_the_question_but_not_state_a_fact(refusal, leaks):
     from references import OP
     script = {**HR["hr-oracle"], "e1410-attendance": [
