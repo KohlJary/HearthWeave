@@ -44,7 +44,8 @@ VOCABULARY = {
     "refuse": "decline a request from outside the house (audience is who asked).",
     "set_lights": "lights (audience house; content says how).",
     "play_music": "music (audience house; content names what).",
-    "set_reminder": "a reminder for the person (data.when).",
+    "set_reminder": "a reminder for the person (data.when: when it's due, written like the times you're given, "
+                    "e.g. \"day 6, 09:00\" or \"09:00\", so the house can tell when it's due).",
     "calendar_add": "add to the calendar.",
     "shopping_list_add": "add to the shopping list (audience self).",
     "queue_candor": "something true the Uncle will say later, not now (audience self; topic; data.condition: "
