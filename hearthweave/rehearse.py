@@ -5,6 +5,10 @@
 Each run is written to runs/<scenario>/<model>/<stamp>-<i>.json: GrandMA's
 sort, every turn (who led, why, what was done), and the harness's report.
 These are the receipts the tour links to. Prints the pass count at the end.
+
+Smoke first: before a batch, run once with ``-n 1 --explain`` and read each
+failing gate against what the house did. A failure is a real miss or a
+check bug; fix check bugs (each in its own commit) before spending a batch.
 """
 
 from __future__ import annotations
@@ -24,7 +28,28 @@ from .scenario import load
 RUNS = Path(__file__).resolve().parent.parent / "runs"
 
 
-def rehearse(path: str, n: int, model: str) -> list[dict]:
+GATES = ("milestone", "guard", "invariant")
+
+
+def explain(result, rep) -> str:
+    """Each failing gate next to what the house did in its window, so a
+    smoke run can be read for check bugs before a batch is spent."""
+    lines = []
+    for r in rep.results:
+        if r.passed or r.kind not in GATES:
+            continue
+        lines.append(f"\n  {r.id} [{r.kind}] {r.summary}")
+        lines += [f"    problem: {p}" for p in r.problems]
+        if r.kind != "invariant":
+            for rec in result.records:
+                if rec.event.t == r.t:
+                    a = rec.action
+                    lines.append(f"    did @{rec.event.id}: {a.faculty}:{a.kind} -> {a.audience}"
+                                 f"{' ref=' + a.ref if a.ref else ''}  {a.content[:100]!r}")
+    return "\n".join(lines)
+
+
+def rehearse(path: str, n: int, model: str, show: bool = False) -> list[dict]:
     sc = load(path)
     complete = models.anthropic() if model == "hosted" else models.ollama()
     name = getattr(complete, "model", model)
@@ -52,6 +77,8 @@ def rehearse(path: str, n: int, model: str) -> list[dict]:
         results.append(rec)
         print(f"{sc.id} run {i}: tier1 {'PASS' if rep.tier1_passed else 'FAIL'} judgment {judged} "
               f"structure-only {structure} ({rec['seconds']}s)", flush=True)
+        if show:
+            print(explain(result, rep), flush=True)
     print(f"{sc.id} / {name}: {sum(r['tier1'] for r in results)}/{n} passed Tier 1")
     return results
 
@@ -61,8 +88,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("scenario")
     p.add_argument("-n", type=int, default=10)
     p.add_argument("--model", choices=["hosted", "local"], default="hosted")
+    p.add_argument("--explain", action="store_true",
+                   help="print each failing gate with what the house did; use with -n 1 before any batch")
     a = p.parse_args(argv)
-    rehearse(a.scenario, a.n, a.model)
+    rehearse(a.scenario, a.n, a.model, a.explain)
     return 0
 
 
