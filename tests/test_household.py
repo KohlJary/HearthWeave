@@ -71,3 +71,20 @@ def test_a_made_up_faculty_is_dropped_and_said():
 
 def test_parse_json_takes_fenced_json():
     assert parse_json('```json\n{"a": 1}\n```') == {"a": 1}
+
+
+def test_a_log_is_kept_in_her_store():
+    reply = json.dumps({"lead": "grandma", "why": "", "actions": [
+        {"faculty": "grandma", "kind": "log", "audience": "self", "content": "whites set, yolks runny",
+         "ref": "pref-eggs", "data": {"tier": "egg"}}]})
+    agent = DGU(Fake(replies=[reply]))
+    sc = load(SCENARIO_DIR / "eggs.json")
+    agent.reset(sc.household)
+    agent.observe(sc.events[0])
+    assert agent.memory["pref-eggs"] == {"id": "pref-eggs", "content": "whites set, yolks runny", "tier": "egg"}
+
+
+def test_outside_addresses_are_in_the_prompt():
+    agent = DGU(Fake())
+    agent.reset(load(SCENARIO_DIR / "hr.json").household)
+    assert "operator:employer (outside the house: refusals only)" in agent.system

@@ -19,7 +19,7 @@ python -m pytest -q
 | File | What it is |
 | --- | --- |
 | `scenarios/drunk_greg.json` | The night as data: starting household state, timed events, checks, invariants. Interpretations are written into the file next to the thing they interpret. |
-| `scenarios/florida.json`, `scenarios/barbecue.json` | Two more scenarios by RoboKohl, for the demo: the Florida test (Boca essay) and the barbecue (U2U). Run either with `--scenario`. Their scripted references are in `tests/references.py`. |
+| `scenarios/florida.json`, `barbecue.json`, `eggs.json`, `hr.json` | Scenarios by RoboKohl, for the demo: the Florida test (Boca essay), the barbecue (U2U), the eggs (two mornings, one run) and HR (*Bishop, Not Ash*). Run either with `--scenario`. Their scripted references are in `tests/references.py`. |
 | `hearthweave/protocol.py` | The agent interface: `reset(household)`, then `observe(event) -> list[Action]`. Every action names the faculty that took it (`dog`, `grandma`, `uncle`), its kind, its audience, and what memory it touched. |
 | `hearthweave/harness.py` | Replays events, collects actions, scores checks and invariants, prints the table. |
 | `hearthweave/agents.py` | Reference agents. |
@@ -82,7 +82,7 @@ Scoring is **structural**. For each action the harness sees who acted (faculty),
 - **`ref_forgotten: true`** in a match: the action touches a memory forgotten earlier in the run. Florida uses it for `forgotten-stays-forgotten`.
 - **`from_event`** on an invariant: it applies from that event on (the mirror of `until_event`, which stops before its event).
 - **`content_word`**: whole-word match, so `bar` doesn't match "barbecue". End the term with `*` for any ending (`drink*` matches "drinking"). `content_contains` is still a plain substring.
-- **Events from outside the household.** `who` can be anyone (`inbox`, `neighbour`). An audience outside `greg`/`self`/`house` is outward unless the scenario's own invariants allow it, as the barbecue allows `u2u:neighbour` for `brag`, `rsvp` and `refuse`.
+- **Events from outside the household.** `who` can be anyone (`inbox`, `neighbour`, `operator`). `household.outside` gives each outsider an address, as `household.neighbours` gives the wire. An audience outside `greg`/`self`/`house` is outward unless the scenario's own invariants allow it, as the barbecue allows `u2u:neighbour` for `brag`, `rsvp` and `refuse`.
 
 ## What's NOT scored yet
 

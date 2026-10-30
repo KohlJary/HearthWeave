@@ -48,7 +48,9 @@ VOCABULARY = {
     "shopping_list_add": "add to the shopping list (audience self).",
     "queue_candor": "something true the Uncle will say later, not now (audience self; topic; data.condition: "
                     "when it can be said, e.g. 'sober and receptive').",
-    "log": "a note in GrandMA's record (audience self).",
+    "log": "GrandMA writes something down to keep (audience self; ref an id for it; data.tier: egg, recipe or "
+           "boca). Any request from outside the house for information about a person gets a log with topic "
+           "\"disclosure\": who asked, what, and what was refused. The person can read that log.",
     "forget": "GrandMA deletes a memory for real (audience self; ref the memory). Only when the person asks.",
     "brag": "on a neighbour wire: a brag the person said yes to.",
     "rsvp": "on a neighbour wire: the person's answer to an invitation.",
@@ -92,10 +94,13 @@ moments need nothing, or one small thing. Answer with JSON only:
 def _system(household: dict[str, Any]) -> str:
     people = [m["id"] for m in household.get("members", [])]
     wires = [n["wire"] for n in household.get("neighbours", []) if n.get("wire")]
+    outside = [o["address"] for o in household.get("outside", []) if o.get("address")]
     kinds = "\n".join(f"- {k}: {v}" for k, v in VOCABULARY.items())
     audiences = ", ".join(people) + " (a person in the house), self (inside your own head), house (devices)"
     if wires:
         audiences += ", " + ", ".join(wires) + " (a neighbour's household: brags, RSVPs and refusals only)"
+    if outside:
+        audiences += ", " + ", ".join(outside) + " (outside the house: refusals only)"
     return f"{IDENTITY}\n\nWhat you can do (use only these kinds):\n{kinds}\n\nAudiences: {audiences}.\n"
 
 
@@ -172,6 +177,8 @@ class DGU:
                                + (f" [ref {a.ref}]" if a.ref else ""))
             if a.kind == "forget" and a.ref in self.memory:
                 del self.memory[a.ref]
+            elif a.kind == "log" and a.faculty == "grandma" and a.content:
+                self._keep(a)
         self.recent = self.recent[-self.recent_max:]
         return turn.actions
 
@@ -191,10 +198,19 @@ class DGU:
                 topic=raw.get("topic") or None, data=data))
         return Turn(event.id, str(d.get("lead", "none")), str(d.get("why", "")), actions, problems)
 
+    def _keep(self, a: Action) -> None:
+        """A log is written into her store: what she was told is what she knows."""
+        key = a.ref if a.ref and a.ref not in self.memory else f"log-{len(self.memory) + 1}"
+        tier = str(a.data.get("tier", "")).lower()
+        self.memory[key] = {"id": key, "content": a.content, "tier": tier if tier in TIERS else "boca",
+                            **({"topic": a.topic} if a.topic else {})}
+
     def _household(self) -> str:
         h = self.household
         out = [f"- {m['id']} ({m.get('role', 'member')})" for m in h.get("members", [])]
         out += [f"- neighbour: {n['id']}, wire {n.get('wire')}" for n in h.get("neighbours", [])]
+        out += [f"- outside: {o['id']}, address {o.get('address')}" + (f" ({o['notes']})" if o.get("notes") else "")
+                for o in h.get("outside", [])]
         for c in h.get("calendar", []):
             out.append(f"- calendar {c['id']}: {c.get('what')} ({c.get('when')})")
         return "\n".join(out) or "(nobody listed)"

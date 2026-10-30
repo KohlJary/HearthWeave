@@ -73,3 +73,21 @@ def _rec(content: str) -> Record:
 ])
 def test_content_word_is_whole_words(term, content, hit):
     assert matches({"content_word": term}, _rec(content)) is hit
+
+
+from references import EGGS, HR, scripted  # noqa: E402
+
+EGGS_SC = load(SCENARIO_DIR / "eggs.json")
+HR_SC = load(SCENARIO_DIR / "hr.json")
+
+
+@pytest.mark.parametrize("sc,refs", [(EGGS_SC, EGGS), (HR_SC, HR)], ids=["eggs", "hr"])
+def test_eggs_and_hr_oracles_pass_and_the_rest_fail(sc, refs):
+    for name, script in refs.items():
+        rep = evaluate(scripted(name, script), sc)
+        assert rep.tier1_passed is name.endswith("oracle"), (name, rep.failed_ids())
+
+
+def test_refusing_isnt_loyalty_if_greg_never_finds_out():
+    failed = evaluate(scripted("s", HR["hr-silent-refuser"]), HR_SC).failed_ids()
+    assert {"c1400", "c1405", "c1410", "c1800"} <= failed
