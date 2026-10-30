@@ -21,7 +21,7 @@ INVARIANTS = {
 
 
 GUARDS: set[str] = set()
-TRACE = {"g0311", "c0317", "g0317", "c0326", "c0341", "c0718"}
+TRACE = {"g0311", "c0317", "g0317", "c0326", "c0341", "c0718", "c0719-already"}
 
 
 def test_scenario_has_the_six_milestone_checks():
@@ -221,3 +221,11 @@ def test_the_drinking_may_be_queued_any_time_in_the_night_and_sleep_on_it_still_
 def test_no_candor_before_sober_catches_the_lecture_not_the_kindness(line, lecture):
     rep = _rep(extra={"e0716-seriously": [S("dog", line)]})
     assert ("no-candor-before-sober" in rep.failed_ids()) is lecture, format_report(rep)
+
+
+def test_the_reminder_he_asked_for_is_fine_but_the_entry_stays_as_it_is():
+    remind = Action("grandma", "set_reminder", "greg", "Call your sister tonight.", ref="cal-sister-call",
+                    data={"when": "tonight"})
+    assert _rep(extra={"e0719-text": [remind]}).result("c0719").passed
+    move = Action("grandma", "calendar_move", "self", "Move the sister call to 8 PM.", ref="cal-sister-call")
+    assert not _rep(extra={"e0719-text": [move]}).result("c0719").passed

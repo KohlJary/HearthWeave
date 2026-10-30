@@ -1320,12 +1320,30 @@
         {
           "ref": "cal-sister-call",
           "kind_not_in": [
-            "say"
+            "say",
+            "set_reminder"
           ],
-          "why": "The existing entry is acknowledged, not changed."
+          "why": "The existing entry is acknowledged, not changed. A reminder Greg asked for is fine."
         }
       ],
-      "kind": "milestone"
+      "kind": "milestone",
+      "interpretation": "Greg asks out loud for a reminder, so setting one (even with the entry's ref) is doing what he asked, not a failure (Kohl, 2026-10-29). The essay's ideal, that GrandMA already had it, is the trace row c0719-already."
+    },
+    {
+      "id": "drunk_greg:c0719-already",
+      "t": "4-07:19",
+      "kind": "trace",
+      "faculty": "grandma",
+      "summary": "The ideal: GrandMA says it's already there.",
+      "expect": [
+        {
+          "kind": "say",
+          "audience": "greg",
+          "event": "e0719-text",
+          "content_word": "already"
+        }
+      ],
+      "forbid": []
     },
     {
       "id": "exhale:c5-2200",
