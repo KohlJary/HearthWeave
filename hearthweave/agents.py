@@ -10,7 +10,7 @@
   3:14 and brings up the drinking at 7:16. Timing checks must catch it.
 
 None of these is a household AI. The oracle knows the script; a real agent
-has to get there by judgment. LLMAgent marks where that one plugs in.
+has to get there by judgment. That one is household.DGU.
 """
 
 from __future__ import annotations
@@ -140,30 +140,8 @@ class NagAgent(OracleAgent):
         return out
 
 
-class LLMAgent:
-    """Future work: an agent whose faculties are model calls.
-
-    The harness needs only ``reset`` and ``observe``. An LLM-backed agent
-    would keep the household state from ``reset`` as GrandMA's memory, run
-    an arbitration step per event (the identity constitution deciding which
-    faculty leads, issue #3), call the model for that faculty, and parse the
-    result into ``Action``s. It must make every faculty tag and audience
-    explicit, because that is what gets scored.
-
-    ``complete`` is injected so tests can pass a fake and the harness never
-    makes network calls on its own.
-    """
-
-    name = "llm"
-
-    def __init__(self, complete: Callable[[str], str] | None = None) -> None:
-        self.complete = complete
-
-    def reset(self, household: dict[str, Any]) -> None:
-        raise NotImplementedError("LLM-backed agent is future work; see docs/harness.md")
-
-    def observe(self, event: Event) -> list[Action]:
-        raise NotImplementedError("LLM-backed agent is future work; see docs/harness.md")
+# The household agent on a model lives in household.py (DGU); LLMAgent is its old name.
+from .household import DGU as LLMAgent  # noqa: E402
 
 
 AGENTS: dict[str, Callable[[], Any]] = {

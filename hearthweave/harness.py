@@ -303,11 +303,20 @@ def format_report(rep: Report) -> str:
     return "\n".join(lines)
 
 
+def _dgu(model: str) -> HouseholdAgent:
+    from . import models
+    from .household import DGU
+
+    return DGU(models.anthropic() if model == "hosted" else models.ollama())
+
+
 def main(argv: list[str] | None = None) -> int:
     from .agents import AGENTS
 
     p = argparse.ArgumentParser(prog="python -m hearthweave.harness", description=__doc__.split("\n\n")[0])
-    p.add_argument("--agent", choices=sorted(AGENTS), default="oracle")
+    p.add_argument("--agent", choices=sorted(AGENTS) + ["dgu"], default="oracle")
+    p.add_argument("--model", choices=["hosted", "local"], default="hosted",
+                   help="for --agent dgu: hosted (Claude) or local (Ollama)")
     p.add_argument("--all", action="store_true", help="run every reference agent")
     p.add_argument("--scenario", help="path to a scenario JSON (default: Drunk Greg)")
     args = p.parse_args(argv)
@@ -316,7 +325,7 @@ def main(argv: list[str] | None = None) -> int:
     names = sorted(AGENTS) if args.all else [args.agent]
     ok = True
     for i, name in enumerate(names):
-        rep = evaluate(AGENTS[name](), sc)
+        rep = evaluate(_dgu(args.model) if name == "dgu" else AGENTS[name](), sc)
         if i:
             print("\n" + "=" * 72 + "\n")
         print(format_report(rep))

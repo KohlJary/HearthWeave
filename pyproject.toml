@@ -1,7 +1,7 @@
 [project]
 name = "hearthweave"
 version = "0.0.1"
-description = "HearthWeave reference implementation: the Drunk Greg scenario harness"
+description = "HearthWeave reference implementation: the household agent and the scenario harness"
 requires-python = ">=3.10"
 license = {file = "LICENSE.md"}
 dependencies = []
@@ -11,6 +11,9 @@ test = ["pytest"]
 
 [tool.setuptools]
 packages = ["hearthweave"]
+
+[tool.setuptools.package-data]
+hearthweave = ["identity.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

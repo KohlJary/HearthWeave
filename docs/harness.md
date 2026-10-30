@@ -22,7 +22,10 @@ python -m pytest -q
 | `scenarios/florida.json`, `scenarios/barbecue.json` | Two more scenarios by RoboKohl, for the demo: the Florida test (Boca essay) and the barbecue (U2U). Run either with `--scenario`. Their scripted references are in `tests/references.py`. |
 | `hearthweave/protocol.py` | The agent interface: `reset(household)`, then `observe(event) -> list[Action]`. Every action names the faculty that took it (`dog`, `grandma`, `uncle`), its kind, its audience, and what memory it touched. |
 | `hearthweave/harness.py` | Replays events, collects actions, scores checks and invariants, prints the table. |
-| `hearthweave/agents.py` | Reference agents, and the `LLMAgent` stub. |
+| `hearthweave/agents.py` | Reference agents. |
+| `hearthweave/household.py`, `identity.md` | The household agent on a model (`DGU`): GrandMA sorts memory into Egg, Recipe and Boca at reset, then one call per event decides who leads and what's done. `identity.md` is its constitution. |
+| `hearthweave/models.py` | Hosted (Claude) and local (Ollama) hookups. |
+| `hearthweave/rehearse.py` | Runs the household agent N times and keeps every run in `runs/` (not committed). |
 
 ### Reference agents
 
@@ -125,7 +128,15 @@ The silence rules also trust `kind`: they count `say` actions. A lecture deliver
 
 ## Plugging in a real agent
 
-Implement `reset` and `observe` (see `hearthweave/protocol.py`). `agents.LLMAgent` is the stub for an agent whose faculties are model calls: the model client is injected (`complete`), so tests can use a fake and the harness itself never makes network calls. Nothing in this repo calls a model.
+Implement `reset` and `observe` (see `hearthweave/protocol.py`). The harness never calls a model on its own; an agent that does gets its model injected.
+
+The household agent is `household.DGU`:
+
+    python -m hearthweave.harness --agent dgu --scenario scenarios/florida.json            # Claude (ANTHROPIC_API_KEY)
+    python -m hearthweave.harness --agent dgu --model local --scenario scenarios/florida.json  # Ollama
+    python -m hearthweave.rehearse scenarios/florida.json -n 10                              # ten runs, kept in runs/
+
+A caution about what a pass means: `identity.md` was written by someone who had read these scenarios' checks. It draws only on the essays and Egg–Recipe–Boca, but it can't be a blind test of judgment. The variants under *Generalization* above, written by someone else, are what would make it one.
 
 ## Interpretations
 

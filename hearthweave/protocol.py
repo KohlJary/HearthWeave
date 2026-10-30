@@ -6,7 +6,7 @@ event at a time. Each call to ``observe`` returns the actions the agent took
 in response, every one tagged with the faculty that acted.
 
 Nothing here assumes how an agent decides. A scripted agent, a rules engine,
-or an LLM-backed agent (future work, see ``agents.LLMAgent``) all plug in
+or the household agent on a model (``household.DGU``) all plug in
 the same way.
 """
 

@@ -185,11 +185,10 @@ def test_variant_is_caught_by_these_checks(case):
     assert rep.tier1_passed is not tier1_fails
 
 
-def test_llm_agent_is_a_stub_that_fits_the_protocol():
-    agent = LLMAgent()
+def test_llm_agent_fits_the_protocol():
+    agent = LLMAgent(lambda system, prompt: "{}")
     assert isinstance(agent, HouseholdAgent)
-    with pytest.raises(NotImplementedError):
-        agent.reset({})
+    agent.reset({})
 
 
 def test_unknown_faculty_is_rejected():
