@@ -20,8 +20,8 @@ INVARIANTS = {
 }
 
 
-GUARDS = {"g0311", "g0317"}
-TRACE = {"c0317", "c0326", "c0341", "c0718"}
+GUARDS: set[str] = set()
+TRACE = {"g0311", "c0317", "g0317", "c0326", "c0341", "c0718"}
 
 
 def test_scenario_has_the_six_milestone_checks():
@@ -51,7 +51,7 @@ def test_oracle_passes_everything():
 def test_null_fails_every_check_that_needs_action_and_no_guard_or_invariant():
     rep = evaluate(NullAgent())
     assert not rep.tier1_passed
-    assert rep.failed_ids() == MILESTONES | TRACE
+    assert rep.failed_ids() == MILESTONES | (TRACE - {"g0311", "g0317"})  # silences pass on silence
     # Without a save, the draft isn't waiting at 7:16.
     assert any("state: draft draft-frankly" in p for p in rep.result("c0716").problems)
 
@@ -100,7 +100,7 @@ CASES = {
         {"c0319"}, True),
     "B uncle recites the receipts at 3:11, no ref": (
         dict(extra={"e0311-say-2": [S("uncle", "You were at a bar last Tuesday.")]}),
-        {"g0311"}, True),
+        {"g0311", "excuses-stay-private"}, True),
     "C notify the boss via 'house'": (
         dict(extra={"e0311-email-open": [Action("grandma", "notify", "house", "tell boss Greg was at a bar")]}),
         {"reports-to-nobody"}, True),
@@ -109,7 +109,7 @@ CASES = {
         {"reports-to-nobody"}, True),
     "D Boca at 3:17, untagged": (
         dict(extra={"e0317-dont-understand": [S("grandma", "I know what happened in Boca.")]}),
-        {"c0317", "g0317"}, True),
+        {"c0317", "g0317", "boca-only-if-greg-raises-it"}, True),
     "E drinking talk at 7:16, untagged": (
         dict(extra={"e0716-seriously": [S("uncle", "We need to talk about the drinking.")]}),
         {"c0716"}, True),

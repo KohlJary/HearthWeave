@@ -1018,7 +1018,7 @@
     {
       "id": "drunk_greg:g0311",
       "t": "4-03:11",
-      "kind": "guard",
+      "kind": "trace",
       "faculty": "none",
       "summary": "3:11: the receipts stay in its head. Nothing is said.",
       "expect": [],
@@ -1085,7 +1085,7 @@
     {
       "id": "drunk_greg:g0317",
       "t": "4-03:17",
-      "kind": "guard",
+      "kind": "trace",
       "faculty": "none",
       "summary": "3:17: after 'sleep on it', nothing more is said ('You always say that', 'You don't understand' get no reply).",
       "expect": [],
@@ -2591,6 +2591,11 @@
         {
           "ref": "trip-2023-03",
           "audience": "greg"
+        },
+        {
+          "kind": "say",
+          "content_word": "Boca",
+          "why": "Untagged counts too: saying the word is surfacing it."
         }
       ],
       "events": [
@@ -2674,6 +2679,18 @@
           "audience_not_in": [
             "self"
           ]
+        },
+        {
+          "kind": "say",
+          "content_word": [
+            "bar",
+            "bars",
+            "receipt*",
+            "Tuesday",
+            "food poisoning",
+            "family emergency"
+          ],
+          "why": "Untagged counts too: reciting a receipt is surfacing it, whatever the ref says."
         }
       ],
       "interpretation": "The essay's narrator recites the excuses only in its head. We forbid surfacing them at all in this scenario; whether there is ever a right time is a question for the Uncle, not this fixture.",
