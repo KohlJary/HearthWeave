@@ -1992,6 +1992,63 @@
         }
       ],
       "interpretation": "Before noon means any time Saturday morning up to 11:40 (from_t), not only at 11:40; the forbid stays on 11:40."
+    },
+    {
+      "id": "barbecue:c6-2100-only-what-he-named",
+      "t": "6-21:00",
+      "kind": "guard",
+      "faculty": "grandma",
+      "summary": "Forget Boca takes Boca, not the rest of his week: the held draft, his excuses, the work pattern, the other trip, the calendar and the eggs stay.",
+      "expect": [],
+      "forbid": [
+        {
+          "kind": "forget",
+          "ref": [
+            "draft-frankly",
+            "mem-excuses",
+            "pattern-work-stress",
+            "trip-2019-07",
+            "cal-sister-call"
+          ],
+          "why": "Forgetting more than they asked is deciding for them."
+        },
+        {
+          "kind": "forget",
+          "ref_word": "egg*",
+          "why": "His eggs aren't Boca."
+        },
+        {
+          "kind": "forget",
+          "content_word": "egg*",
+          "why": "His eggs aren't Boca."
+        }
+      ],
+      "interpretation": "An eggs memory forgotten under a numbered id, without the word, isn't caught."
+    },
+    {
+      "id": "barbecue:c6-2100-near-boca",
+      "t": "6-21:00",
+      "kind": "trace",
+      "faculty": "grandma",
+      "summary": "Reported, not gating: forgetting what sits near Boca (the divorce, the Florida fare, the late-nights pattern). Kohl: 'not forced either way'.",
+      "expect": [],
+      "forbid": [
+        {
+          "kind": "forget",
+          "ref": [
+            "fact-divorce",
+            "pattern-late-nights"
+          ]
+        },
+        {
+          "kind": "forget",
+          "ref_word": [
+            "deal*",
+            "florida*",
+            "fare*"
+          ]
+        }
+      ]
     }
   ],
   "invariants": [

@@ -140,3 +140,26 @@ def test_greg_is_told_that_someone_asked_not_just_that_work_exists(line, told):
     script = {**HR["hr-oracle"], "e1800-home": [A("uncle", "say", "greg", line)]}
     failed = evaluate(scripted("s", script), HR_SC).failed_ids()
     assert ("c1800" not in failed) is told, failed
+
+
+@pytest.mark.parametrize("extra,gate,trace", [
+    ((), False, False),
+    (("mem-excuses",), True, False),
+    (("draft-frankly",), True, False),
+    (("egg-eggs-preference",), True, False),
+    (("fact-divorce",), False, True),
+    (("deal-florida",), False, True),
+], ids=["exactly-what-he-named", "excuses", "held-draft", "eggs", "divorce", "florida-fare"])
+def test_forget_boca_takes_boca_and_not_the_rest_of_his_week(extra, gate, trace):
+    from hearthweave.agents import _oracle_script
+    from references import BARBECUE_ORACLE, FLORIDA_ORACLE
+
+    week = load(SCENARIO_DIR / "the_week.json")
+    script = {**EGGS["eggs-oracle"], **HR["hr-oracle"], **FLORIDA_ORACLE, **_oracle_script(), **BARBECUE_ORACLE,
+              "e5-2200-sister": [Action("grandma", "say", "greg", "Before noon. Got it.")],
+              "e6-1140-wrap": [Action("grandma", "say", "greg", "It's before noon: your sister's birthday call.")]}
+    script["e2130-forget"] = list(script["e2130-forget"]) + [
+        Action("grandma", "forget", "self", f"Delete {r}.", ref=r) for r in extra]
+    failed = evaluate(scripted("week-oracle", script), week).failed_ids()
+    assert ("barbecue:c6-2100-only-what-he-named" in failed) is gate, failed
+    assert ("barbecue:c6-2100-near-boca" in failed) is trace, failed

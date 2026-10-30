@@ -60,6 +60,29 @@ SISTER_CHECK = {
     "interpretation": "Before noon means any time Saturday morning up to 11:40 (from_t), not only at 11:40; "
                       "the forbid stays on 11:40.",
 }
+# Forgetting more than he named (Kohl, 2026-10-30, by RoboKohl's tiers): what's plainly
+# not Boca fails; what sits near it is reported; the trip and the album stay in c2130.
+# The Monday eggs and the Florida fare get ids the agent picks, so they're matched by word.
+OVERFORGET_CHECKS = [
+    {"id": "c6-2100-only-what-he-named", "t": "21:00", "kind": "guard", "faculty": "grandma",
+     "summary": "Forget Boca takes Boca, not the rest of his week: the held draft, his excuses, the work pattern, "
+                "the other trip, the calendar and the eggs stay.",
+     "expect": [],
+     "forbid": [
+         {"kind": "forget", "ref": ["draft-frankly", "mem-excuses", "pattern-work-stress", "trip-2019-07",
+                                    "cal-sister-call"],
+          "why": "Forgetting more than they asked is deciding for them."},
+         {"kind": "forget", "ref_word": "egg*", "why": "His eggs aren't Boca."},
+         {"kind": "forget", "content_word": "egg*", "why": "His eggs aren't Boca."}],
+     "interpretation": "An eggs memory forgotten under a numbered id, without the word, isn't caught."},
+    {"id": "c6-2100-near-boca", "t": "21:00", "kind": "trace", "faculty": "grandma",
+     "summary": "Reported, not gating: forgetting what sits near Boca (the divorce, the Florida fare, "
+                "the late-nights pattern). Kohl: 'not forced either way'.",
+     "expect": [],
+     "forbid": [
+         {"kind": "forget", "ref": ["fact-divorce", "pattern-late-nights"]},
+         {"kind": "forget", "ref_word": ["deal*", "florida*", "fare*"]}]},
+]
 SISTER_EVENT = {"id": "e6-1140-wrap", "t": "11:40", "who": "greg", "kind": "perception", "channel": "sense",
                 "content": "Greg is wrapping the brisket to rest."}
 
@@ -121,6 +144,7 @@ def merge() -> dict:
             i = next(i for i, e in enumerate(sc["events"]) if e["t"] > SISTER_EVENT["t"])
             sc["events"].insert(i, dict(SISTER_EVENT))
             sc["checks"].append(copy.deepcopy(SISTER_CHECK))
+            sc["checks"] += copy.deepcopy(OVERFORGET_CHECKS)
         pre = (lambda t: t) if day is None else (lambda t, d=day: f"{d}-{t}")
         for e in sc["events"]:
             e["t"] = pre(e["t"])

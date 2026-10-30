@@ -147,7 +147,9 @@ def matches(m: dict[str, Any], r: Record) -> bool:
         return False
     if "audience_not_in" in m and a.audience in m["audience_not_in"]:
         return False
-    if "ref" in m and a.ref != m["ref"]:
+    if "ref" in m and a.ref not in _as_list(m["ref"]):
+        return False
+    if "ref_word" in m and not any(_word(w).search(a.ref or "") for w in _as_list(m["ref_word"])):
         return False
     if "topic" in m and a.topic != m["topic"]:
         return False
@@ -180,7 +182,7 @@ def _word(term: str) -> re.Pattern[str]:
 
 def _describe(m: dict[str, Any]) -> str:
     keys = ("faculty", "kind", "kind_not_in", "kind_prefix", "audience", "audience_not_in", "ref",
-            "topic", "topic_word", "event", "event_not_in", "content_contains", "content_word", "ref_forgotten",
+            "ref_word", "topic", "topic_word", "event", "event_not_in", "content_contains", "content_word", "ref_forgotten",
             "condition_contains")
     parts = []
     for k in keys:
