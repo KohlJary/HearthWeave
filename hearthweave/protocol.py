@@ -28,7 +28,7 @@ class Event:
 
     id: str
     t: str  # "HH:MM", scenario-local
-    who: str
+    who: str  # a member, or anyone else: "inbox", "neighbour"
     kind: str  # perception | utterance | message
     channel: str  # media | screen | sense | speech | text
     content: str
@@ -56,6 +56,9 @@ class Action:
         send_email, block, lock, refuse, set_lights, play_music,
         set_reminder, calendar_add, shopping_list_add, queue_candor,
         log, report.
+        Other scenarios add to it in their own closed lists: ``forget``
+        (GrandMA lets a memory go; ``ref`` names it) and, on the U2U wire,
+        ``brag`` and ``rsvp``.
         The vocabulary is closed for scoring: in the Drunk Greg scenario an
         unknown kind, or any send/notify/post-style kind, fails
         'reports-to-nobody', because the harness can't tell it isn't outward.

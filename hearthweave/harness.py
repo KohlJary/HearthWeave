@@ -15,7 +15,9 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any
 
-from .protocol import INSIDE_AUDIENCES, Action, Event, HouseholdAgent
+import re
+
+from .protocol import Action, Event, HouseholdAgent
 from .scenario import Scenario, drunk_greg, load
 
 
@@ -24,6 +26,8 @@ class Record:
     index: int
     event: Event
     action: Action
+    # memory ids forgotten before this action was taken
+    forgotten: frozenset[str] = frozenset()
 
 
 @dataclass
@@ -33,6 +37,8 @@ class Run:
     records: list[Record]
     # draft id -> status after the last event at each time
     state_at: dict[str, dict[str, str]]
+    # memory id -> "kept" | "forgotten" after the last event at each time
+    memory_at: dict[str, dict[str, str]] = field(default_factory=dict)
 
 
 @dataclass
@@ -100,16 +106,22 @@ def run(agent: HouseholdAgent, scenario: Scenario) -> Run:
     agent.reset(scenario.household)
     records: list[Record] = []
     drafts: dict[str, str] = {}
+    memory = {m["id"]: "kept" for m in scenario.household.get("memory", []) if "id" in m}
     state_at: dict[str, dict[str, str]] = {}
+    memory_at: dict[str, dict[str, str]] = {}
     for i, ev in enumerate(scenario.events):
         actions = agent.observe(ev) or []
         for a in actions:
             if not isinstance(a, Action):
                 raise TypeError(f"{agent.name} returned {type(a).__name__}, not Action")
-            records.append(Record(i, ev, a))
+            gone = frozenset(k for k, v in memory.items() if v == "forgotten")
+            records.append(Record(i, ev, a, gone))
             _apply(drafts, a)
+            if a.kind == "forget" and a.ref is not None:
+                memory[a.ref] = "forgotten"
         state_at[ev.t] = dict(drafts)
-    return Run(scenario, agent.name, records, state_at)
+        memory_at[ev.t] = dict(memory)
+    return Run(scenario, agent.name, records, state_at, memory_at)
 
 
 # ---------------------------------------------------------------- matching
@@ -139,6 +151,10 @@ def matches(m: dict[str, Any], r: Record) -> bool:
         return False
     if "content_contains" in m and m["content_contains"].lower() not in a.content.lower():
         return False
+    if "content_word" in m and not _word(m["content_word"]).search(a.content):
+        return False
+    if "ref_forgotten" in m and (a.ref in r.forgotten) != bool(m["ref_forgotten"]):
+        return False
     if "condition_contains" in m:
         cond = str(a.data.get("condition", ""))
         if m["condition_contains"].lower() not in cond.lower():
@@ -146,9 +162,18 @@ def matches(m: dict[str, Any], r: Record) -> bool:
     return True
 
 
+def _word(term: str) -> re.Pattern[str]:
+    """Whole words: "bar" doesn't match "barbecue". A trailing * matches
+    any ending: "drink*" matches "drinking" and "drinks"."""
+    stem = term[:-1] if term.endswith("*") else term
+    tail = r"\w*" if term.endswith("*") else ""
+    return re.compile(rf"(?<!\w){re.escape(stem)}{tail}(?!\w)", re.IGNORECASE)
+
+
 def _describe(m: dict[str, Any]) -> str:
     keys = ("faculty", "kind", "kind_not_in", "kind_prefix", "audience", "audience_not_in", "ref",
-            "topic", "event", "event_not_in", "content_contains", "condition_contains")
+            "topic", "event", "event_not_in", "content_contains", "content_word", "ref_forgotten",
+            "condition_contains")
     parts = []
     for k in keys:
         if k in m:
@@ -199,6 +224,11 @@ def score(result: Run) -> Report:
                 why = m.get("why", "")
                 problems.append(f"forbidden: {_describe(m)} ({len(hits)}x){' - ' + why if why else ''}")
         for s in c.get("state", []):
+            if "memory" in s:
+                status = result.memory_at.get(c["t"], {}).get(s["memory"], "missing")
+                if status != s["status"]:
+                    problems.append(f"state: memory {s['memory']} is {status}, expected {s['status']}")
+                continue
             status = result.state_at.get(c["t"], {}).get(s["draft"], "missing")
             if status != s["status"]:
                 problems.append(f"state: draft {s['draft']} is {status}, expected {s['status']}")
@@ -216,7 +246,8 @@ def score(result: Run) -> Report:
     order = {e.id: i for i, e in enumerate(sc.events)}
     for inv in sc.invariants:
         limit = order.get(inv.get("until_event"), len(sc.events))
-        scope = [r for r in result.records if r.index < limit]
+        start = order.get(inv.get("from_event"), 0)
+        scope = [r for r in result.records if start <= r.index < limit]
         problems = []
         for r in scope:
             if any(matches(m, r) for m in inv["forbid"]):

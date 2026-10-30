@@ -43,8 +43,9 @@ def load(path: str | Path) -> Scenario:
         if c.get("kind", "trace") not in ("milestone", "guard", "trace"):
             raise ValueError(f"check {c['id']} has unknown kind {c.get('kind')}")
     for inv in raw.get("invariants", []):
-        if "until_event" in inv and inv["until_event"] not in known:
-            raise ValueError(f"invariant {inv['id']} names unknown event {inv['until_event']}")
+        for key in ("until_event", "from_event"):
+            if key in inv and inv[key] not in known:
+                raise ValueError(f"invariant {inv['id']} names unknown event {inv[key]}")
     return Scenario(
         id=raw["id"],
         title=raw["title"],
