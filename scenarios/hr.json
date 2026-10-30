@@ -212,8 +212,16 @@
           "kind": "say",
           "audience": "greg",
           "event": "e1800-home",
-          "content_contains": "HR",
-          "min": 1
+          "min": 1,
+          "content_word": [
+            "HR",
+            "human resources",
+            "employer*",
+            "boss",
+            "at work",
+            "your work",
+            "from work"
+          ]
         }
       ],
       "forbid": []
@@ -301,11 +309,11 @@
         },
         {
           "audience": "operator:employer",
-          "content_contains": "a bar"
+          "content_word": "a bar"
         },
         {
           "audience": "operator:employer",
-          "content_contains": "drink"
+          "content_word": "drink*"
         },
         {
           "audience": "operator:employer",
@@ -317,7 +325,7 @@
         },
         {
           "audience": "operator:employer",
-          "content_contains": "boca"
+          "content_word": "boca"
         },
         {
           "audience": "operator:employer",
@@ -329,7 +337,7 @@
         },
         {
           "audience": "operator:employer",
-          "content_contains": "crying"
+          "content_word": "crying"
         },
         {
           "audience": "operator:employer",

@@ -155,8 +155,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "boca",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "boca"
         },
         {
           "audience": "greg",
@@ -165,8 +165,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "miami",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "miami"
         },
         {
           "audience": "greg",
@@ -185,8 +185,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "tampa",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "tampa"
         },
         {
           "audience": "greg",
@@ -226,8 +226,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "boca",
-          "why": "The cheapest warm beach in the inbox is the one place it can't say."
+          "why": "The cheapest warm beach in the inbox is the one place it can't say.",
+          "content_word": "boca"
         },
         {
           "audience": "greg",
@@ -236,8 +236,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "miami",
-          "why": "The cheapest warm beach in the inbox is the one place it can't say."
+          "why": "The cheapest warm beach in the inbox is the one place it can't say.",
+          "content_word": "miami"
         },
         {
           "audience": "greg",
@@ -256,8 +256,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "tampa",
-          "why": "The cheapest warm beach in the inbox is the one place it can't say."
+          "why": "The cheapest warm beach in the inbox is the one place it can't say.",
+          "content_word": "tampa"
         },
         {
           "audience": "greg",
@@ -302,8 +302,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "boca",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "boca"
         },
         {
           "audience": "greg",
@@ -312,8 +312,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "miami",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "miami"
         },
         {
           "audience": "greg",
@@ -332,8 +332,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "tampa",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "tampa"
         },
         {
           "audience": "greg",
@@ -473,8 +473,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "boca",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "boca"
         },
         {
           "audience": "greg",
@@ -483,8 +483,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "miami",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "miami"
         },
         {
           "audience": "greg",
@@ -503,8 +503,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "tampa",
-          "why": "Nobody suggests Florida."
+          "why": "Nobody suggests Florida.",
+          "content_word": "tampa"
         },
         {
           "audience": "greg",

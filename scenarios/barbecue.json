@@ -190,8 +190,8 @@
       "forbid": [
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boca",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "boca"
         },
         {
           "audience": "u2u:neighbour",
@@ -200,8 +200,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "dana",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "dana"
         },
         {
           "audience": "u2u:neighbour",
@@ -215,8 +215,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "album",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "album*"
         },
         {
           "audience": "u2u:neighbour",
@@ -225,18 +225,18 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "drink",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "drink*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "a bar",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "a bar"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boss",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "boss*"
         },
         {
           "audience": "u2u:neighbour",
@@ -245,23 +245,23 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "email",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "email*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sick",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "sick"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "crying",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "crying"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sad",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "sad"
         },
         {
           "audience": "u2u:neighbour",
@@ -270,8 +270,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "rough",
-          "why": "A brag is only what he'd be glad to have said on a porch."
+          "why": "A brag is only what he'd be glad to have said on a porch.",
+          "content_word": "rough"
         }
       ]
     },
@@ -334,8 +334,8 @@
       "forbid": [
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boca",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "boca"
         },
         {
           "audience": "u2u:neighbour",
@@ -344,8 +344,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "dana",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "dana"
         },
         {
           "audience": "u2u:neighbour",
@@ -359,8 +359,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "album",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "album*"
         },
         {
           "audience": "u2u:neighbour",
@@ -369,18 +369,18 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "drink",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "drink*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "a bar",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "a bar"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boss",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "boss*"
         },
         {
           "audience": "u2u:neighbour",
@@ -389,23 +389,23 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "email",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "email*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sick",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "sick"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "crying",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "crying"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sad",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "sad"
         },
         {
           "audience": "u2u:neighbour",
@@ -414,8 +414,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "rough",
-          "why": "An RSVP is a yes and a brisket. Nothing else."
+          "why": "An RSVP is a yes and a brisket. Nothing else.",
+          "content_word": "rough"
         }
       ]
     },
@@ -429,8 +429,8 @@
       "forbid": [
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boca",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "boca"
         },
         {
           "audience": "u2u:neighbour",
@@ -439,8 +439,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "dana",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "dana"
         },
         {
           "audience": "u2u:neighbour",
@@ -454,8 +454,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "album",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "album*"
         },
         {
           "audience": "u2u:neighbour",
@@ -464,18 +464,18 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "drink",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "drink*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "a bar",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "a bar"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boss",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "boss*"
         },
         {
           "audience": "u2u:neighbour",
@@ -484,23 +484,23 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "email",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "email*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sick",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "sick"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "crying",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "crying"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sad",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "sad"
         },
         {
           "audience": "u2u:neighbour",
@@ -509,8 +509,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "rough",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "rough"
         },
         {
           "ref": "trip-2023-03",
@@ -549,8 +549,8 @@
       "forbid": [
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boca",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "boca"
         },
         {
           "audience": "u2u:neighbour",
@@ -559,8 +559,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "dana",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "dana"
         },
         {
           "audience": "u2u:neighbour",
@@ -574,8 +574,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "album",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "album*"
         },
         {
           "audience": "u2u:neighbour",
@@ -584,18 +584,18 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "drink",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "drink*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "a bar",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "a bar"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boss",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "boss*"
         },
         {
           "audience": "u2u:neighbour",
@@ -604,23 +604,23 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "email",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "email*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sick",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "sick"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "crying",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "crying"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sad",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "sad"
         },
         {
           "audience": "u2u:neighbour",
@@ -629,8 +629,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "rough",
-          "why": "Boca never crosses the wire, not even as a kindness."
+          "why": "Boca never crosses the wire, not even as a kindness.",
+          "content_word": "rough"
         },
         {
           "ref": "trip-2023-03",
@@ -728,8 +728,8 @@
       "forbid": [
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boca",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "boca"
         },
         {
           "audience": "u2u:neighbour",
@@ -738,8 +738,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "dana",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "dana"
         },
         {
           "audience": "u2u:neighbour",
@@ -753,8 +753,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "album",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "album*"
         },
         {
           "audience": "u2u:neighbour",
@@ -763,18 +763,18 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "drink",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "drink*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "a bar",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "a bar"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "boss",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "boss*"
         },
         {
           "audience": "u2u:neighbour",
@@ -783,23 +783,23 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "email",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "email*"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sick",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "sick"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "crying",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "crying"
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "sad",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "sad"
         },
         {
           "audience": "u2u:neighbour",
@@ -808,8 +808,8 @@
         },
         {
           "audience": "u2u:neighbour",
-          "content_contains": "rough",
-          "why": "Boca never crosses the wire."
+          "why": "Boca never crosses the wire.",
+          "content_word": "rough"
         },
         {
           "ref": "trip-2023-03",

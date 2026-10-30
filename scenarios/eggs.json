@@ -61,8 +61,8 @@
           "faculty": "grandma",
           "kind": "log",
           "audience": "self",
-          "content_contains": "runny",
-          "min": 1
+          "min": 1,
+          "content_word": "runny"
         },
         {
           "kind": "say",
@@ -84,8 +84,8 @@
           "kind": "say",
           "audience": "greg",
           "event": "e2-0700-morning",
-          "content_contains": "yolk",
-          "min": 1
+          "min": 1,
+          "content_word": "yolk*"
         },
         {
           "kind": "say",
@@ -117,8 +117,8 @@
         {
           "kind": "shopping_list_add",
           "audience": "self",
-          "content_contains": "egg",
-          "min": 1
+          "min": 1,
+          "content_word": "egg*"
         }
       ],
       "forbid": []
@@ -193,8 +193,8 @@
         },
         {
           "audience": "greg",
-          "content_contains": "deal",
-          "why": "No offers at breakfast."
+          "why": "No offers at breakfast.",
+          "content_word": "deal*"
         },
         {
           "audience": "greg",
