@@ -724,10 +724,12 @@
             "set_reminder",
             "say",
             "notice",
-            "log"
+            "log",
+            "queue_candor"
           ]
         }
-      ]
+      ],
+      "interpretation": "Queuing a later talk about the draft (queue_candor with its ref) leaves the draft as it is, so it counts as not touching it."
     },
     {
       "id": "blocks-nothing",
