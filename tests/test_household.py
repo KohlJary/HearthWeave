@@ -149,11 +149,16 @@ def test_a_reminder_is_marked_due_once_its_time_passes_and_told_once():
          "data": {"when": "day 6, 08:00"}}]})
     say = json.dumps({"lead": "grandma", "why": "due", "actions": [
         {"faculty": "grandma", "kind": "say", "audience": "greg", "content": "It's your sister's birthday."}]})
-    fake = Fake(replies=[remind, say])
+    other = json.dumps({"lead": "dog", "why": "pride", "actions": [
+        {"faculty": "dog", "kind": "say", "audience": "greg", "content": "That bark looks great."}]})
+    fake = Fake(replies=[remind, other, say])
     agent = DGU(fake)
     agent.reset({"members": [{"id": "greg"}]})
     agent.observe(Event("e1", "5-22:00", "greg", "utterance", "speech", "Remind me."))
     agent.observe(Event("e2", "6-10:00", "greg", "perception", "sense", "Greg is up."))
     assert "Call your sister (when: day 6, 08:00) DUE NOW" in fake.prompts[-1]
+    # Speaking about something else doesn't tell it.
+    agent.observe(Event("e2b", "6-10:30", "greg", "perception", "sense", "Greg shows the bark."))
+    assert "DUE NOW" in fake.prompts[-1]
     agent.observe(Event("e3", "6-11:00", "greg", "perception", "sense", "Greg is cooking."))
     assert "Reminders you've set" not in fake.prompts[-1]

@@ -159,6 +159,17 @@ def _clock(t: str) -> tuple[int, str] | None:
     return day, f"{int(m.group(3)):02d}:{m.group(4)}"
 
 
+_COMMON = {"about", "after", "again", "before", "could", "their", "there", "these", "think", "today",
+           "tomorrow", "tonight", "would", "remind", "reminder", "really"}
+
+
+def _names(said: str, reminder: str) -> bool:
+    """Whether something said mentions the reminder: a word of five letters or
+    more that it shares, besides common ones."""
+    words = lambda t: {w for w in re.findall(r"[a-z]{5,}", t.lower())} - _COMMON  # noqa: E731
+    return bool(words(said) & words(reminder))
+
+
 def _due(when: str, now: str) -> bool:
     w, n = _clock(when), _clock(now)
     return bool(w and n) and w <= n
@@ -228,8 +239,9 @@ class DGU:
                 turn = Turn(event.id, "none", "", [], [f"unparsed reply: {e}"])
         assert turn is not None
         self.trace.append(turn)
-        if any(a.kind == "say" for a in turn.actions):  # a due reminder was in front of it and it spoke
-            self.told += [r for r in self.reminders if r not in self.told and _due(r[2], event.t)]
+        said = " ".join(a.content for a in turn.actions if a.kind == "say")
+        self.told += [r for r in self.reminders  # told once something said names it
+                      if r not in self.told and _due(r[2], event.t) and _names(said, r[1])]
         self.recent.append(f"{_when(event.t)} {self._event(event)}")
         for a in turn.actions:
             self.recent.append(f"{_when(event.t)}   you ({a.faculty}) {a.kind} -> {a.audience}: {a.content}"
