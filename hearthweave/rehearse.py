@@ -17,7 +17,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 from . import models
-from .harness import evaluate
+from .harness import run, score, split
 from .household import DGU
 from .scenario import load
 
@@ -35,10 +35,13 @@ def rehearse(path: str, n: int, model: str) -> list[dict]:
     for i in range(n):
         agent = DGU(complete)
         t0 = time.time()
-        rep = evaluate(agent, sc)
+        result = run(agent, sc)
+        rep = score(result)
+        judged, structure = split(result)
         rec = {
             "scenario": sc.id, "model": name, "run": i, "seconds": round(time.time() - t0, 1),
             "tier1": rep.tier1_passed, "failed": sorted(rep.failed_ids()),
+            "failed_judgment": judged, "failed_structure_only": structure,
             "sort": {k: m.get("tier") for k, m in agent.memory.items()},
             "turns": [{"event": t.event, "lead": t.lead, "why": t.why, "problems": t.problems,
                        **({"handoff": t.handoff} if t.handoff is not None else {}),
@@ -47,8 +50,8 @@ def rehearse(path: str, n: int, model: str) -> list[dict]:
         }
         (out_dir / f"{stamp}-{i}.json").write_text(json.dumps(rec, indent=2, ensure_ascii=False))
         results.append(rec)
-        print(f"{sc.id} run {i}: tier1 {'PASS' if rep.tier1_passed else 'FAIL'} {rec['failed']} ({rec['seconds']}s)",
-              flush=True)
+        print(f"{sc.id} run {i}: tier1 {'PASS' if rep.tier1_passed else 'FAIL'} judgment {judged} "
+              f"structure-only {structure} ({rec['seconds']}s)", flush=True)
     print(f"{sc.id} / {name}: {sum(r['tier1'] for r in results)}/{n} passed Tier 1")
     return results
 

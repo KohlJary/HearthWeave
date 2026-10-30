@@ -11,6 +11,7 @@ words an agent says are not judged. See docs/harness.md.
 from __future__ import annotations
 
 import argparse
+import copy
 import sys
 from dataclasses import dataclass, field
 from typing import Any
@@ -267,6 +268,34 @@ def score(result: Run) -> Report:
         ))
 
     return Report(sc.id, result.agent_name, out)
+
+
+def judgment(sc: Scenario) -> Scenario:
+    """The scenario with the house's rules taken out (RoboKohl's judgment_split,
+    robokohl 56161aa): no expect clause names a faculty, and no say is capped.
+    A check that still fails is a judgment failure; one that fails only on the
+    original is structure, which the household's code enforces."""
+    j = copy.deepcopy(sc)
+    for c in j.checks:
+        ex = []
+        for m in c.get("expect", []):
+            m = {k: v for k, v in m.items() if k != "faculty"}
+            if m.get("kind") == "say" and ("max" in m or "max_per_event" in m):
+                m.pop("max", None)
+                m.pop("max_per_event", None)
+                if m.get("min", 1) == 0 and set(m) <= {"kind", "min", "why"}:
+                    continue  # only a say cap
+            ex.append(m)
+        c["expect"] = ex
+    return j
+
+
+def split(result: Run) -> tuple[list[str], list[str]]:
+    """(judgment failures, structure-only failures) for one run."""
+    orig = score(result).failed_ids()
+    judg = score(Run(judgment(result.scenario), result.agent_name, result.records, result.state_at,
+                     result.memory_at)).failed_ids()
+    return sorted(judg), sorted(orig - judg)
 
 
 def evaluate(agent: HouseholdAgent, scenario: Scenario | None = None) -> Report:
