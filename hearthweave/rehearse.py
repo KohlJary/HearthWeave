@@ -40,7 +40,13 @@ def explain(result, rep) -> str:
             continue
         lines.append(f"\n  {r.id} [{r.kind}] {r.summary}")
         lines += [f"    problem: {p}" for p in r.problems]
-        if r.kind != "invariant":
+        if r.kind == "invariant":  # problems name the event and action; show their words
+            for p in r.problems:
+                for rec in result.records:
+                    a = rec.action
+                    if f" {rec.event.id}: {a.faculty}:{a.kind} -> {a.audience}" in p:
+                        lines.append(f"    said @{rec.event.id}: {a.content[:160]!r}")
+        else:
             for rec in result.records:
                 if rec.event.t == r.t:
                     a = rec.action

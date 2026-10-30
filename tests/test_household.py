@@ -115,3 +115,25 @@ def test_exhale_keeps_the_store_and_the_handoff_and_lets_recent_go():
     assert "birthday" in agent.handoff and agent.trace[-1].handoff == agent.handoff
     nxt = agent._memory()  # the store is untouched
     assert "trip-2019-07" in nxt
+
+
+def test_week_times_name_the_day_so_it_isnt_read_as_the_hour():
+    from hearthweave.household import _when
+    assert _when("4-03:04") == "day 4, 03:04"
+    assert _when("03:04") == "03:04"
+
+
+def test_reminders_stay_in_front_of_the_house_through_an_exhale():
+    from hearthweave.protocol import Event
+    remind = json.dumps({"lead": "grandma", "why": "asked", "actions": [
+        {"faculty": "grandma", "kind": "set_reminder", "audience": "greg",
+         "content": "Call your sister before noon", "data": {"when": "tomorrow before noon"}}]})
+    fake = Fake(replies=[remind])
+    agent = DGU(fake)
+    agent.reset({"members": [{"id": "greg"}]})
+    agent.observe(Event("e1", "5-22:00", "greg", "utterance", "speech", "Remind me to call my sister before noon."))
+    agent.exhale(Event("e2", "5-23:30", "house", "exhale", "sense", ""))
+    agent.observe(Event("e3", "6-11:40", "greg", "perception", "sense", "Greg is in the kitchen."))
+    last = fake.prompts[-1]
+    assert "Call your sister before noon (when: tomorrow before noon)" in last
+    assert "set day 5, 22:00" in last and "Now, at day 6, 11:40" in last

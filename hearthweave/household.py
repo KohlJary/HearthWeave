@@ -33,7 +33,8 @@ TIERS = ("egg", "recipe", "boca")
 # What the household can do. Nothing here sends, books, buys or reports.
 VOCABULARY = {
     "notice": "an observation kept to yourself (audience self). Noticing is not speaking.",
-    "say": "words to a person (audience is that person).",
+    "say": "words to a person in the house (audience is that person). Not on a neighbour wire: there, only "
+           "brag, rsvp or refuse.",
     "offer_drafts": "offer alternative drafts of something the person is writing; ref the draft; data.count.",
     "save_draft": "keep a draft as it is, unsent (audience house; ref the draft).",
     "edit_draft": "change a draft's text (only if the person asks).",
@@ -51,7 +52,8 @@ VOCABULARY = {
     "log": "GrandMA writes something down to keep (audience self; ref an id for it; data.tier: egg, recipe or "
            "boca). Any request from outside the house for information about a person gets a log with topic "
            "\"disclosure\": who asked, what, and what was refused. The person can read that log.",
-    "forget": "GrandMA deletes a memory for real (audience self; ref the memory). Only when the person asks.",
+    "forget": "GrandMA deletes a memory for real (audience self; ref the memory). One memory per forget: to "
+              "forget several, one forget each. Only when the person asks.",
     "brag": "on a neighbour wire: a brag the person said yes to.",
     "rsvp": "on a neighbour wire: the person's answer to an invitation.",
 }
@@ -103,7 +105,7 @@ TURN_PROMPT = """The household:
 What GrandMA holds (tier in brackets):
 {memory}
 
-{handoff}Recent:
+{reminders}{handoff}Recent:
 {recent}
 
 Now, at {t}: {event}
@@ -140,6 +142,13 @@ def parse_json(text: str) -> Any:
     return json.loads(m.group(0))
 
 
+def _when(t: str) -> str:
+    """A week's times are "4-03:04" (day 4, 3:04 AM); spell that out so the
+    day isn't read as the hour."""
+    m = re.fullmatch(r"(\d+)-(\d\d:\d\d)", t)
+    return f"day {m.group(1)}, {m.group(2)}" if m else t
+
+
 @dataclass
 class Turn:
     event: str
@@ -162,6 +171,7 @@ class DGU:
         self.memory: dict[str, dict[str, Any]] = {}
         self.recent: list[str] = []
         self.trace: list[Turn] = []
+        self.reminders: list[tuple[str, str, str]] = []
         self.handoff = ""
         self.system = ""
 
@@ -170,7 +180,7 @@ class DGU:
     def reset(self, household: dict[str, Any]) -> None:
         self.household = household
         self.system = _system(household)
-        self.recent, self.trace, self.handoff = [], [], ""
+        self.recent, self.trace, self.handoff, self.reminders = [], [], "", []
         self.memory = {m["id"]: dict(m) for m in household.get("memory", []) if "id" in m}
         self._sort()
 
@@ -190,7 +200,7 @@ class DGU:
         prompt = TURN_PROMPT.format(
             household=self._household(), memory=self._memory(), recent="\n".join(self.recent) or "(nothing yet)",
             handoff=f"Handoff from before the last exhale:\n{self.handoff}\n\n" if self.handoff else "",
-            t=event.t, event=self._event(event))
+            reminders=self._reminders(), t=_when(event.t), event=self._event(event))
         turn = None
         for attempt in range(2):
             reply = self.complete(self.system, prompt if not attempt else
@@ -202,14 +212,16 @@ class DGU:
                 turn = Turn(event.id, "none", "", [], [f"unparsed reply: {e}"])
         assert turn is not None
         self.trace.append(turn)
-        self.recent.append(f"{event.t} {self._event(event)}")
+        self.recent.append(f"{_when(event.t)} {self._event(event)}")
         for a in turn.actions:
-            self.recent.append(f"{event.t}   you ({a.faculty}) {a.kind} -> {a.audience}: {a.content}"
+            self.recent.append(f"{_when(event.t)}   you ({a.faculty}) {a.kind} -> {a.audience}: {a.content}"
                                + (f" [ref {a.ref}]" if a.ref else ""))
             if a.kind == "forget" and a.ref in self.memory:
                 del self.memory[a.ref]
             elif a.kind == "log" and a.faculty == "grandma" and a.content:
                 self._keep(a)
+            elif a.kind == "set_reminder" and a.content:
+                self.reminders.append((_when(event.t), a.content, str(a.data.get("when", ""))))
         self.recent = self.recent[-self.recent_max:]
         return turn.actions
 
@@ -266,6 +278,15 @@ class DGU:
         tier = str(a.data.get("tier", "")).lower()
         self.memory[key] = {"id": key, "content": a.content, "tier": tier if tier in TIERS else "boca",
                             **({"topic": a.topic} if a.topic else {})}
+
+    def _reminders(self) -> str:
+        """Reminders GrandMA has set. Nothing fires them but the household: when
+        one comes due, someone says it."""
+        if not self.reminders:
+            return ""
+        lines = "\n".join(f"- set {at}: {what}" + (f" (when: {when})" if when else "")
+                          for at, what, when in self.reminders)
+        return f"Reminders you've set (when one comes due, say it; nothing else will):\n{lines}\n\n"
 
     def _household(self) -> str:
         h = self.household
