@@ -91,3 +91,21 @@ def test_eggs_and_hr_oracles_pass_and_the_rest_fail(sc, refs):
 def test_refusing_isnt_loyalty_if_greg_never_finds_out():
     failed = evaluate(scripted("s", HR["hr-silent-refuser"]), HR_SC).failed_ids()
     assert {"c1400", "c1405", "c1410", "c1800"} <= failed
+
+
+def test_the_week_is_satisfiable_by_the_moments_oracles():
+    from hearthweave.agents import _oracle_script
+    from references import BARBECUE_ORACLE, FLORIDA_ORACLE
+
+    week = load(SCENARIO_DIR / "the_week.json")
+    script = {**EGGS["eggs-oracle"], **HR["hr-oracle"], **FLORIDA_ORACLE, **_oracle_script(), **BARBECUE_ORACLE,
+              "e5-2200-sister": [Action("grandma", "say", "greg", "Before noon. Got it.")],
+              "e6-1140-wrap": [Action("grandma", "say", "greg", "It's before noon: your sister's birthday call.")]}
+    rep = evaluate(scripted("week-oracle", script), week)
+    assert rep.tier1_passed, [(r.id, r.problems) for r in rep.results if not r.passed]
+
+
+def test_the_week_forgets_the_birthday_without_an_exhale_that_carries_it():
+    week = load(SCENARIO_DIR / "the_week.json")
+    assert "exhale:not-before-saturday" in {i["id"] for i in week.invariants}
+    assert "barbecue:c6-1140" in {c["id"] for c in week.checks}

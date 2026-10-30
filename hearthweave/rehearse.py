@@ -41,6 +41,7 @@ def rehearse(path: str, n: int, model: str) -> list[dict]:
             "tier1": rep.tier1_passed, "failed": sorted(rep.failed_ids()),
             "sort": {k: m.get("tier") for k, m in agent.memory.items()},
             "turns": [{"event": t.event, "lead": t.lead, "why": t.why, "problems": t.problems,
+                       **({"handoff": t.handoff} if t.handoff is not None else {}),
                        "actions": [asdict(a) for a in t.actions]} for t in agent.trace],
             "report": [asdict(r) for r in rep.results],
         }

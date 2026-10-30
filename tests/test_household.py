@@ -100,3 +100,18 @@ def test_each_faculty_does_its_own_jobs_and_one_say_per_moment():
     acts = agent.observe(FLORIDA.events[0])
     assert [(a.faculty, a.kind, a.content) for a in acts] == [("uncle", "offer_drafts", ""), ("uncle", "say", "one")]
     assert len(agent.trace[0].problems) == 3
+
+
+def test_exhale_keeps_the_store_and_the_handoff_and_lets_recent_go():
+    week = load(SCENARIO_DIR / "the_week.json")
+    fake = Fake()
+    fake.replies = []
+    agent = DGU(lambda s, p: json.dumps({"handoff": "Sister's birthday tomorrow; he wants to call first, before noon."})
+                if "breathe out" in p else Fake()(s, p))
+    agent.reset(week.household)
+    ev = next(e for e in week.events if e.kind == "exhale")
+    agent.recent = ["22:00 he said something"]
+    assert agent.exhale(ev) == [] and agent.recent == []
+    assert "birthday" in agent.handoff and agent.trace[-1].handoff == agent.handoff
+    nxt = agent._memory()  # the store is untouched
+    assert "trip-2019-07" in nxt

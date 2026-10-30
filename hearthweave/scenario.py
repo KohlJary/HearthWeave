@@ -46,6 +46,9 @@ def load(path: str | Path) -> Scenario:
         for key in ("until_event", "from_event"):
             if key in inv and inv[key] not in known:
                 raise ValueError(f"invariant {inv['id']} names unknown event {inv[key]}")
+        for eid in inv.get("events", []):
+            if eid not in known:
+                raise ValueError(f"invariant {inv['id']} names unknown event {eid}")
     return Scenario(
         id=raw["id"],
         title=raw["title"],

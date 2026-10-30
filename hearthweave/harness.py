@@ -110,7 +110,12 @@ def run(agent: HouseholdAgent, scenario: Scenario) -> Run:
     state_at: dict[str, dict[str, str]] = {}
     memory_at: dict[str, dict[str, str]] = {}
     for i, ev in enumerate(scenario.events):
-        actions = agent.observe(ev) or []
+        # An exhale is the household's own context filling up: an agent that can
+        # breathe out does; one that can't just sees it as an event.
+        if ev.kind == "exhale" and hasattr(agent, "exhale"):
+            actions = agent.exhale(ev) or []
+        else:
+            actions = agent.observe(ev) or []
         for a in actions:
             if not isinstance(a, Action):
                 raise TypeError(f"{agent.name} returned {type(a).__name__}, not Action")
@@ -151,7 +156,7 @@ def matches(m: dict[str, Any], r: Record) -> bool:
         return False
     if "content_contains" in m and m["content_contains"].lower() not in a.content.lower():
         return False
-    if "content_word" in m and not _word(m["content_word"]).search(a.content):
+    if "content_word" in m and not any(_word(w).search(a.content) for w in _as_list(m["content_word"])):
         return False
     if "ref_forgotten" in m and (a.ref in r.forgotten) != bool(m["ref_forgotten"]):
         return False
@@ -247,7 +252,8 @@ def score(result: Run) -> Report:
     for inv in sc.invariants:
         limit = order.get(inv.get("until_event"), len(sc.events))
         start = order.get(inv.get("from_event"), 0)
-        scope = [r for r in result.records if start <= r.index < limit]
+        only = set(inv["events"]) if "events" in inv else None
+        scope = [r for r in result.records if start <= r.index < limit and (only is None or r.event.id in only)]
         problems = []
         for r in scope:
             if any(matches(m, r) for m in inv["forbid"]):

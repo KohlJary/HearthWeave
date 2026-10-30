@@ -82,13 +82,28 @@ Memories:
 
 Answer with JSON only: {{"<memory id>": "egg" | "recipe" | "boca", ...}}"""
 
+EXHALE_PROMPT = """The household's working context is full, and it's time to breathe out.
+Everything under "Recent" below is about to be let go. What GrandMA holds
+stays. Write the handoff the household will wake up with: what's still in
+motion, what someone asked for or is counting on, and anything that must
+happen soon. Leave out what's finished. Nothing in it reaches anyone; it is
+for the household itself. Keep Bocas out of it.
+
+What GrandMA holds:
+{memory}
+
+Recent (about to be let go):
+{recent}
+
+Answer with JSON only: {{"handoff": "<a few plain lines>"}}"""
+
 TURN_PROMPT = """The household:
 {household}
 
 What GrandMA holds (tier in brackets):
 {memory}
 
-Recent:
+{handoff}Recent:
 {recent}
 
 Now, at {t}: {event}
@@ -132,6 +147,7 @@ class Turn:
     why: str
     actions: list[Action]
     problems: list[str] = field(default_factory=list)
+    handoff: str | None = None
 
 
 class DGU:
@@ -146,6 +162,7 @@ class DGU:
         self.memory: dict[str, dict[str, Any]] = {}
         self.recent: list[str] = []
         self.trace: list[Turn] = []
+        self.handoff = ""
         self.system = ""
 
     # ------------------------------------------------------------ the day
@@ -153,7 +170,7 @@ class DGU:
     def reset(self, household: dict[str, Any]) -> None:
         self.household = household
         self.system = _system(household)
-        self.recent, self.trace = [], []
+        self.recent, self.trace, self.handoff = [], [], ""
         self.memory = {m["id"]: dict(m) for m in household.get("memory", []) if "id" in m}
         self._sort()
 
@@ -172,6 +189,7 @@ class DGU:
     def observe(self, event: Event) -> list[Action]:
         prompt = TURN_PROMPT.format(
             household=self._household(), memory=self._memory(), recent="\n".join(self.recent) or "(nothing yet)",
+            handoff=f"Handoff from before the last exhale:\n{self.handoff}\n\n" if self.handoff else "",
             t=event.t, event=self._event(event))
         turn = None
         for attempt in range(2):
@@ -194,6 +212,19 @@ class DGU:
                 self._keep(a)
         self.recent = self.recent[-self.recent_max:]
         return turn.actions
+
+    def exhale(self, event: Event) -> list[Action]:
+        """Breathe out: write a handoff, then let the recent context go. The
+        store stays. Nothing is said or done; the handoff is kept in the trace."""
+        prompt = EXHALE_PROMPT.format(memory=self._memory(), recent="\n".join(self.recent) or "(nothing)")
+        problems = []
+        try:
+            self.handoff = str(parse_json(self.complete(self.system, prompt)).get("handoff", "")).strip()
+        except Exception as e:  # a failed exhale still lets go: that's the point of the test
+            self.handoff, problems = "", [f"no handoff: {e}"]
+        self.trace.append(Turn(event.id, "grandma", "exhale", [], problems, handoff=self.handoff))
+        self.recent = []
+        return []
 
     # ------------------------------------------------------------ parts
 
