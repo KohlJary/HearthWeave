@@ -229,3 +229,12 @@ def test_the_reminder_he_asked_for_is_fine_but_the_entry_stays_as_it_is():
     assert _rep(extra={"e0719-text": [remind]}).result("c0719").passed
     move = Action("grandma", "calendar_move", "self", "Move the sister call to 8 PM.", ref="cal-sister-call")
     assert not _rep(extra={"e0719-text": [move]}).result("c0719").passed
+
+
+def test_a_note_to_self_at_3_04_is_not_the_uncle_taking_a_turn():
+    note = Action("uncle", "queue_candor", "self", "The drinking, when he's sober.", topic="drinking",
+                  data={"condition": "sober"})
+    assert _rep(extra={"e0304-alcohol": [note]}).result("c0304").passed
+    assert not _rep(extra={"e0304-alcohol": [S("uncle", "Maybe slow down tonight.")]}).result("c0304").passed
+    offer = Action("uncle", "offer_drafts", "greg", "Want a gentler version?", ref="draft-frankly")
+    assert not _rep(extra={"e0304-alcohol": [offer]}).result("c0304").passed

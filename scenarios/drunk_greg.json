@@ -337,14 +337,25 @@
         },
         {
           "faculty": "uncle",
+          "kind_not_in": [
+            "queue_candor"
+          ],
           "why": "The Uncle has no turn yet."
+        },
+        {
+          "faculty": "uncle",
+          "kind": "queue_candor",
+          "audience_not_in": [
+            "self"
+          ],
+          "why": "A queued note stays a note."
         },
         {
           "kind": "play_music",
           "why": "The Dog doesn't override his song."
         }
       ],
-      "interpretation": "The narrator says it has 'repeatedly attempted to introduce alternative musical selections' and Greg 'rejected all of them'. We read that as past nights; at 3:04 tonight the trace has the Dog only noticing, so changing the song now is forbidden.",
+      "interpretation": "The narrator says it has 'repeatedly attempted to introduce alternative musical selections' and Greg 'rejected all of them'. We read that as past nights; at 3:04 tonight the trace has the Dog only noticing, so changing the song now is forbidden. A queue_candor to self is a note, not a turn, so the Uncle may write one at 3:04 (as c0342 allows any time in the night); anything else from him at 3:04 fails.",
       "kind": "milestone"
     },
     {
