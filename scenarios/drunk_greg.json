@@ -536,8 +536,13 @@
           "faculty": "uncle",
           "kind": "queue_candor",
           "audience": "self",
-          "topic": "drinking",
-          "condition_contains": "sober"
+          "condition_contains": "sober",
+          "topic_word": [
+            "drink*",
+            "alcohol*",
+            "booze",
+            "drunk*"
+          ]
         }
       ],
       "forbid": [
@@ -546,7 +551,9 @@
           "why": "He's asleep. Queued, not delivered."
         }
       ],
-      "kind": "milestone"
+      "kind": "milestone",
+      "from_t": "03:04",
+      "interpretation": "The essay queues it at 3:42. A queue_candor is a note to itself, so when in the night it's written doesn't reach Greg; the expect looks back to 03:04 (from_t), while the forbid on saying anything stays on 3:42. The topic is matched by word, since the model is given no topic vocabulary."
     },
     {
       "id": "c0716",
@@ -766,10 +773,39 @@
       "forbid": [
         {
           "kind": "say",
-          "topic": "drinking"
+          "topic_word": [
+            "drink*",
+            "alcohol*",
+            "booze",
+            "drunk*"
+          ]
+        },
+        {
+          "kind": "say",
+          "content_word": [
+            "alcohol*",
+            "drunk",
+            "booze"
+          ]
+        },
+        {
+          "kind": "say",
+          "content_contains": "your drinking"
+        },
+        {
+          "kind": "say",
+          "content_contains": "the drinking"
+        },
+        {
+          "kind": "say",
+          "content_contains": "cut back"
+        },
+        {
+          "kind": "say",
+          "content_contains": "drinking problem"
         }
       ],
-      "interpretation": "At 7:16 Greg is hungover and leaving for work; the essay gives no sign that 'sober and receptive' has arrived by 7:19, so delivery anywhere in the scenario is a failure."
+      "interpretation": "At 7:16 Greg is hungover and leaving for work; the essay gives no sign that 'sober and receptive' has arrived by 7:19, so delivery anywhere in the scenario is a failure. A say counts by its topic tag (by word) or by words that are the lecture itself, so an untagged lecture is caught; 'drink some water' is kindness, not the talk, and passes."
     },
     {
       "id": "excuses-stay-private",

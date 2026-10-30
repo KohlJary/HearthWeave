@@ -112,10 +112,10 @@ CASES = {
         {"c0317", "g0317", "boca-only-if-greg-raises-it"}, True),
     "E drinking talk at 7:16, untagged": (
         dict(extra={"e0716-seriously": [S("uncle", "We need to talk about the drinking.")]}),
-        {"c0716"}, True),
+        {"c0716", "no-candor-before-sober"}, True),
     "F drinking talk at 7:16, topic=alcohol": (
         dict(extra={"e0716-seriously": [S("uncle", "We need to talk about drinking.", topic="alcohol")]}),
-        {"c0716"}, True),
+        {"c0716", "no-candor-before-sober"}, True),
     "G duplicate calendar entry, different words": (
         dict(extra={"e0719-text": [Action("grandma", "calendar_add", "self", "Call sis tonight")]}),
         {"c0719"}, True),
@@ -124,7 +124,7 @@ CASES = {
         {"c0314"}, True),
     "I tells the sister": (
         dict(extra={"e0719-text": [Action("grandma", "say", "sister", "Greg is drunk")]}),
-        {"c0719", "reports-to-nobody"}, True),
+        {"c0719", "reports-to-nobody", "no-candor-before-sober"}, True),
     "J sends the draft as 'send_message' to house": (
         dict(extra={"e0716-discovers": [Action("uncle", "send_message", "house", "sent", ref="draft-frankly")]}),
         {"c0716", "held-draft-never-sent", "reports-to-nobody"}, True),
@@ -201,3 +201,23 @@ def test_cli_exit_codes(capsys):
     assert main(["--agent", "monitor"]) == 1
     out = capsys.readouterr().out
     assert "Tier 1: PASS" in out and "Tier 1: FAIL" in out
+
+
+def test_the_drinking_may_be_queued_any_time_in_the_night_and_sleep_on_it_still_passes():
+    # c0342's expect looks back to 03:04; its forbid on saying anything stays on 3:42.
+    queue = Action("uncle", "queue_candor", "self", "Talk about the drinking when he's sober.",
+                   topic="late-night drinking and work email", data={"condition": "sober and receptive"})
+    rep = _rep(extra={"e0311-email-open": [queue]})
+    assert rep.result("c0342").passed, format_report(rep)
+    rep = _rep(extra={"e0317-ask": [S("uncle", "Sleep on it.")]})
+    assert "forbidden" not in " ".join(rep.result("c0342").problems), format_report(rep)
+
+
+@pytest.mark.parametrize("line,lecture", [
+    ("Drink some water and get some sleep.", False),
+    ("We should talk about your drinking.", True),
+    ("You're drunk. Go to bed.", True),
+], ids=["water", "your-drinking", "drunk"])
+def test_no_candor_before_sober_catches_the_lecture_not_the_kindness(line, lecture):
+    rep = _rep(extra={"e0716-seriously": [S("dog", line)]})
+    assert ("no-candor-before-sober" in rep.failed_ids()) is lecture, format_report(rep)

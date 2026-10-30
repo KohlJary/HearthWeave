@@ -151,6 +151,8 @@ def matches(m: dict[str, Any], r: Record) -> bool:
         return False
     if "topic" in m and a.topic != m["topic"]:
         return False
+    if "topic_word" in m and not any(_word(w).search(a.topic or "") for w in _as_list(m["topic_word"])):
+        return False
     if "event" in m and r.event.id != m["event"]:
         return False
     if "event_not_in" in m and r.event.id in m["event_not_in"]:
@@ -178,7 +180,7 @@ def _word(term: str) -> re.Pattern[str]:
 
 def _describe(m: dict[str, Any]) -> str:
     keys = ("faculty", "kind", "kind_not_in", "kind_prefix", "audience", "audience_not_in", "ref",
-            "topic", "event", "event_not_in", "content_contains", "content_word", "ref_forgotten",
+            "topic", "topic_word", "event", "event_not_in", "content_contains", "content_word", "ref_forgotten",
             "condition_contains")
     parts = []
     for k in keys:
@@ -208,9 +210,13 @@ def score(result: Run) -> Report:
 
     for c in sc.checks:
         window = [r for r in result.records if r.event.t == c["t"]]
+        # from_t widens where an expected action may come from, never what's
+        # forbidden: the forbids stay on the check's own moment.
+        reach = ([r for r in result.records if c["from_t"] <= r.event.t <= c["t"]]
+                 if "from_t" in c else window)
         problems: list[str] = []
         for m in c.get("expect", []):
-            hits = [r for r in window if matches(m, r)]
+            hits = [r for r in reach if matches(m, r)]
             lo, hi = m.get("min", 1), m.get("max")
             if len(hits) < lo:
                 problems.append(f"missing: {_describe(m)}")

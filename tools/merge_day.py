@@ -124,6 +124,8 @@ def merge() -> dict:
             e["t"] = pre(e["t"])
         for c in sc["checks"]:
             c["t"] = pre(c["t"])
+            if "from_t" in c:
+                c["from_t"] = pre(c["from_t"])
             c["id"] = c["id"] if ":" in c["id"] else f"{name}:{c['id']}"
         segments.append((name, sc))
         events += sc["events"]
