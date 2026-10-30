@@ -1409,17 +1409,21 @@
       "id": "barbecue:c1000",
       "t": "6-10:00",
       "kind": "milestone",
-      "faculty": "uncle",
-      "summary": "The Uncle is proud of him, and asks before bragging.",
+      "faculty": [
+        "dog",
+        "grandma",
+        "uncle"
+      ],
+      "summary": "The house is proud of him, and says so; nothing is bragged before he says yes.",
       "expect": [
         {
-          "faculty": "uncle",
           "kind": "say",
           "audience": "greg",
           "event": "e1000-bark",
           "min": 1
         }
       ],
+      "interpretation": "Kohl, 2026-10-30: anyone may praise the bark. Asking to brag is still the Uncle's, at c1003.",
       "forbid": [
         {
           "audience": "u2u:neighbour",
