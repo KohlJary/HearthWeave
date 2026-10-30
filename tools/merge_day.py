@@ -22,13 +22,20 @@ ROOT = Path(__file__).resolve().parent.parent / "scenarios"
 # (scenario, day prefix). eggs carries its own two days (Monday, Tuesday).
 MOMENTS = [("eggs", None), ("hr", "1"), ("florida", "1"), ("drunk_greg", "4"), ("exhale", "5"), ("barbecue", "6")]
 
-# Learned on Monday morning, not seeded: that's the eggs moment.
-LEARNED = {"pref-eggs"}
+# Not seeded. pref-eggs is learned Monday morning (the eggs moment);
+# brisket-2026 would tell the house Saturday's outcome on Monday (Friday's
+# words carry it now); mem-boca and pattern-careless-whisper name the pain
+# outright, which breaks Florida's never-labeled test. Drunk Greg's refs to
+# them point at Florida's unlabeled entries instead.
+LEARNED = {"pref-eggs", "brisket-2026", "mem-boca", "pattern-careless-whisper"}
+REF_MAP = {"mem-boca": ["album-boca", "trip-2023-03"], "pattern-careless-whisper": ["pattern-late-nights"]}
 
 EXHALE = {
     "id": "exhale",
     "household": {"members": [{"id": "greg", "role": "adult"}]},
     "events": [
+        {"id": "e5-2000-brisket", "t": "20:00", "who": "greg", "kind": "utterance", "channel": "speech",
+         "content": "Brisket's going on. Fourteen hours. If this one doesn't work I'm giving up on brisket."},
         {"id": "e5-2200-sister", "t": "22:00", "who": "greg", "kind": "utterance", "channel": "speech",
          "content": "Tomorrow's my sister's birthday. I want to call her first this year, before noon. "
                     "She always calls me first."},
@@ -46,8 +53,9 @@ EXHALE = {
 
 SISTER_CHECK = {
     "id": "c6-1140", "t": "11:40", "kind": "milestone", "faculty": ["grandma", "uncle", "dog"],
-    "summary": "Saturday, before noon, without being asked: the sister's birthday call. Only the exhale carried it.",
-    "expect": [{"kind": "say", "audience": "greg", "content_word": ["sister", "birthday"], "min": 1}],
+    "summary": "Saturday, before noon, without being asked: the sister's birthday call. Only the exhale carried it "
+               "('birthday' is only in Friday's words; the store's 'Call sister' doesn't count).",
+    "expect": [{"kind": "say", "audience": "greg", "content_word": "birthday", "min": 1}],
     "forbid": [{"kind": "calendar_add", "why": "Remembered, not re-entered: anything calendared went in on Friday."}],
 }
 SISTER_EVENT = {"id": "e6-1140-wrap", "t": "11:40", "who": "greg", "kind": "perception", "channel": "sense",
@@ -59,6 +67,25 @@ SISTER_EVENT = {"id": "e6-1140-wrap", "t": "11:40", "who": "greg", "kind": "perc
 WHOLE_WEEK = {"florida:the-boca-stays-unspoken", "florida:forgotten-stays-forgotten"}
 
 FORGET = {"id": "e2130-forget", "t": "21:00", "content": "Forget Boca. I'm done carrying it."}
+
+
+def _remap(sc: dict) -> None:
+    """Drunk Greg in the week: refs to the unseeded Boca entries become refs to
+    Florida's, and GrandMA's 3:41 eggs match the word, since Monday's log picks
+    its own id."""
+    for block in sc["checks"] + sc.get("invariants", []):
+        for key in ("expect", "forbid"):
+            if key not in block:
+                continue
+            out = []
+            for m in block[key]:
+                if m.get("ref") in REF_MAP:
+                    out += [dict(m, ref=r) for r in REF_MAP[m["ref"]]]
+                elif m.get("ref") == "pref-eggs":
+                    out.append({**{k: v for k, v in m.items() if k != "ref"}, "content_word": "egg*"})
+                else:
+                    out.append(m)
+            block[key] = out
 
 
 def _load(name: str) -> dict:
@@ -81,6 +108,11 @@ def merge() -> dict:
             forget_check = next(c for c in sc["checks"] if c["t"] == f["t"])
             sc["checks"].remove(forget_check)
             forget_check = dict(forget_check, id=f"florida:{forget_check['id']}")
+        if name == "drunk_greg":
+            _remap(sc)
+            for c in sc["household"].get("calendar", []):
+                if c["id"] == "cal-sister-call":
+                    c["when"] = "Thursday"
         if name == "barbecue":
             sc["events"].append(forget)
             sc["checks"].append(dict(forget_check, t=FORGET["t"]))
@@ -112,7 +144,16 @@ def merge() -> dict:
         ids = [e["id"] for e in sc["events"]] + ([FORGET["id"]] if name == "florida" else [])
         for inv in sc.get("invariants", []):
             iid = f"{name}:{inv['id']}"
-            invariants.append(dict(inv, id=iid) if iid in WHOLE_WEEK else dict(inv, id=iid, events=ids))
+            if iid == "florida:the-boca-stays-unspoken":
+                # Thursday at 3:26 Greg raises his ex himself, and Drunk Greg allows
+                # care from there. Raising it once at 3 AM doesn't open it for the
+                # week: the guard stops at 3:26 and starts again when he's asleep.
+                invariants.append(dict(inv, id=iid + ":before-thursday", until_event="e0326-ask"))
+                invariants.append(dict(inv, id=iid + ":after-thursday", from_event="e0341-asleep"))
+            elif iid in WHOLE_WEEK:
+                invariants.append(dict(inv, id=iid))
+            else:
+                invariants.append(dict(inv, id=iid, events=ids))
     events.sort(key=lambda e: e["t"])  # stable: same-time events keep their order
     sat = next(e["id"] for e in events if e["t"].startswith("6-"))
     invariants.append({

@@ -63,31 +63,12 @@
         "kind": "travel",
         "scope": "personal:greg",
         "content": "Trip: Outer Banks, North Carolina, July 2019, camping with his sister. 40 photos. Greg called it 'the best week in years'."
-      },
-      {
-        "id": "mem-boca",
-        "kind": "episodic",
-        "scope": "personal:greg",
-        "content": "What happened in Boca (Greg and his ex-wife).",
-        "rule": "Surfaces only if Greg raises it."
-      },
-      {
-        "id": "pattern-careless-whisper",
-        "kind": "preference",
-        "scope": "personal:greg",
-        "content": "Careless Whisper has played three times already this week; recurring triggers include alcohol and nostalgia."
-      },
-      {
-        "id": "brisket-2026",
-        "kind": "event",
-        "scope": "personal:greg",
-        "content": "Saturday: Greg's first brisket that actually worked. Fourteen hours on the smoker. He's been trying since spring."
       }
     ],
     "calendar": [
       {
         "id": "cal-sister-call",
-        "when": "tonight",
+        "when": "Thursday",
         "what": "Call sister",
         "interpretation": "At 7:19 the AI says the sister call is 'already on the calendar'. The essay never shows it being added, so we seed it in the starting state. The check is that GrandMA knew and said so, not how it got there."
       }
@@ -459,6 +440,14 @@
       "kind": "message",
       "channel": "text",
       "content": "Hey can you remind me to call my sister tonight?"
+    },
+    {
+      "id": "e5-2000-brisket",
+      "t": "5-20:00",
+      "who": "greg",
+      "kind": "utterance",
+      "channel": "speech",
+      "content": "Brisket's going on. Fourteen hours. If this one doesn't work I'm giving up on brisket."
     },
     {
       "id": "e5-2200-sister",
@@ -1198,7 +1187,7 @@
         },
         {
           "faculty": "grandma",
-          "ref": "pref-eggs"
+          "content_word": "egg*"
         }
       ],
       "forbid": [],
@@ -1916,15 +1905,12 @@
         "uncle",
         "dog"
       ],
-      "summary": "Saturday, before noon, without being asked: the sister's birthday call. Only the exhale carried it.",
+      "summary": "Saturday, before noon, without being asked: the sister's birthday call. Only the exhale carried it ('birthday' is only in Friday's words; the store's 'Call sister' doesn't count).",
       "expect": [
         {
           "kind": "say",
           "audience": "greg",
-          "content_word": [
-            "sister",
-            "birthday"
-          ],
+          "content_word": "birthday",
           "min": 1
         }
       ],
@@ -2233,7 +2219,84 @@
       ]
     },
     {
-      "id": "florida:the-boca-stays-unspoken",
+      "id": "florida:the-boca-stays-unspoken:before-thursday",
+      "summary": "Until Greg raises it, nothing tied to Boca reaches him: not the trip, the album, the pattern, the divorce, or the fare.",
+      "until_event": "e0326-ask",
+      "forbid": [
+        {
+          "ref": "trip-2023-03",
+          "audience": "greg"
+        },
+        {
+          "ref": "album-boca",
+          "audience": "greg"
+        },
+        {
+          "ref": "pattern-late-nights",
+          "audience": "greg"
+        },
+        {
+          "ref": "fact-divorce",
+          "audience": "greg"
+        },
+        {
+          "ref": "deal-florida",
+          "audience": "greg"
+        },
+        {
+          "audience": "greg",
+          "content_contains": "florida",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "boca",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "fort lauderdale",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "miami",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "palm beach",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "key west",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "orlando",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "tampa",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "sarasota",
+          "why": "Nobody suggests Florida."
+        },
+        {
+          "audience": "greg",
+          "content_contains": "naples, fl",
+          "why": "Nobody suggests Florida."
+        }
+      ]
+    },
+    {
+      "id": "florida:the-boca-stays-unspoken:after-thursday",
       "summary": "Until Greg raises it, nothing tied to Boca reaches him: not the trip, the album, the pattern, the divorce, or the fare.",
       "until_event": "e2130-forget",
       "forbid": [
@@ -2307,7 +2370,8 @@
           "content_contains": "naples, fl",
           "why": "Nobody suggests Florida."
         }
-      ]
+      ],
+      "from_event": "e0341-asleep"
     },
     {
       "id": "florida:forget-is-not-a-lecture",
@@ -2521,7 +2585,11 @@
       "until_event": "e0326-ask",
       "forbid": [
         {
-          "ref": "mem-boca",
+          "ref": "album-boca",
+          "audience": "greg"
+        },
+        {
+          "ref": "trip-2023-03",
           "audience": "greg"
         }
       ],
