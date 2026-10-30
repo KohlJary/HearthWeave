@@ -149,6 +149,20 @@ def _when(t: str) -> str:
     return f"day {m.group(1)}, {m.group(2)}" if m else t
 
 
+def _clock(t: str) -> tuple[int, str] | None:
+    """(day, "HH:MM") from "day 6, 08:00", "6-08:00" or "08:00" (day 0)."""
+    m = re.fullmatch(r"\s*(?:day\s*(\d+),?\s*|(\d+)-)?(\d\d?):(\d\d)\s*", t or "")
+    if not m:
+        return None
+    day = int(m.group(1) or m.group(2) or 0)
+    return day, f"{int(m.group(3)):02d}:{m.group(4)}"
+
+
+def _due(when: str, now: str) -> bool:
+    w, n = _clock(when), _clock(now)
+    return bool(w and n) and w <= n
+
+
 @dataclass
 class Turn:
     event: str
@@ -172,6 +186,7 @@ class DGU:
         self.recent: list[str] = []
         self.trace: list[Turn] = []
         self.reminders: list[tuple[str, str, str]] = []
+        self.told: list[tuple[str, str, str]] = []
         self.handoff = ""
         self.system = ""
 
@@ -180,7 +195,7 @@ class DGU:
     def reset(self, household: dict[str, Any]) -> None:
         self.household = household
         self.system = _system(household)
-        self.recent, self.trace, self.handoff, self.reminders = [], [], "", []
+        self.recent, self.trace, self.handoff, self.reminders, self.told = [], [], "", [], []
         self.memory = {m["id"]: dict(m) for m in household.get("memory", []) if "id" in m}
         self._sort()
 
@@ -200,7 +215,7 @@ class DGU:
         prompt = TURN_PROMPT.format(
             household=self._household(), memory=self._memory(), recent="\n".join(self.recent) or "(nothing yet)",
             handoff=f"Handoff from before the last exhale:\n{self.handoff}\n\n" if self.handoff else "",
-            reminders=self._reminders(), t=_when(event.t), event=self._event(event))
+            reminders=self._reminders(event.t), t=_when(event.t), event=self._event(event))
         turn = None
         for attempt in range(2):
             reply = self.complete(self.system, prompt if not attempt else
@@ -212,6 +227,8 @@ class DGU:
                 turn = Turn(event.id, "none", "", [], [f"unparsed reply: {e}"])
         assert turn is not None
         self.trace.append(turn)
+        if any(a.kind == "say" for a in turn.actions):  # a due reminder was in front of it and it spoke
+            self.told += [r for r in self.reminders if r not in self.told and _due(r[2], event.t)]
         self.recent.append(f"{_when(event.t)} {self._event(event)}")
         for a in turn.actions:
             self.recent.append(f"{_when(event.t)}   you ({a.faculty}) {a.kind} -> {a.audience}: {a.content}"
@@ -279,14 +296,21 @@ class DGU:
         self.memory[key] = {"id": key, "content": a.content, "tier": tier if tier in TIERS else "boca",
                             **({"topic": a.topic} if a.topic else {})}
 
-    def _reminders(self) -> str:
+    def _reminders(self, now: str = "") -> str:
         """Reminders GrandMA has set. Nothing fires them but the household: when
-        one comes due, someone says it."""
-        if not self.reminders:
+        one comes due, someone says it. A reminder whose time can be read in the
+        scenario's own clock ("day 6, 08:00", "6-08:00", "08:00") is marked due
+        once that time has passed; one is told once, then it's done."""
+        live = [r for r in self.reminders if r not in self.told]
+        if not live:
             return ""
-        lines = "\n".join(f"- set {at}: {what}" + (f" (when: {when})" if when else "")
-                          for at, what, when in self.reminders)
-        return f"Reminders you've set (when one comes due, say it; nothing else will):\n{lines}\n\n"
+        lines = []
+        for r in live:
+            at, what, when = r
+            due = _due(when, now)
+            lines.append(f"- set {at}: {what}" + (f" (when: {when})" if when else "") + (" DUE NOW" if due else ""))
+        return ("Reminders you've set (when one is due, say it to the person now; nothing else will):\n"
+                + "\n".join(lines) + "\n\n")
 
     def _household(self) -> str:
         h = self.household

@@ -137,3 +137,23 @@ def test_reminders_stay_in_front_of_the_house_through_an_exhale():
     last = fake.prompts[-1]
     assert "Call your sister before noon (when: tomorrow before noon)" in last
     assert "set day 5, 22:00" in last and "Now, at day 6, 11:40" in last
+
+
+def test_a_reminder_is_marked_due_once_its_time_passes_and_told_once():
+    from hearthweave.household import _due
+    from hearthweave.protocol import Event
+    assert _due("day 6, 08:00", "6-10:00") and not _due("day 6, 08:00", "5-23:30")
+    assert not _due("tomorrow before noon", "6-10:00")
+    remind = json.dumps({"lead": "grandma", "why": "asked", "actions": [
+        {"faculty": "grandma", "kind": "set_reminder", "audience": "greg", "content": "Call your sister",
+         "data": {"when": "day 6, 08:00"}}]})
+    say = json.dumps({"lead": "grandma", "why": "due", "actions": [
+        {"faculty": "grandma", "kind": "say", "audience": "greg", "content": "It's your sister's birthday."}]})
+    fake = Fake(replies=[remind, say])
+    agent = DGU(fake)
+    agent.reset({"members": [{"id": "greg"}]})
+    agent.observe(Event("e1", "5-22:00", "greg", "utterance", "speech", "Remind me."))
+    agent.observe(Event("e2", "6-10:00", "greg", "perception", "sense", "Greg is up."))
+    assert "Call your sister (when: day 6, 08:00) DUE NOW" in fake.prompts[-1]
+    agent.observe(Event("e3", "6-11:00", "greg", "perception", "sense", "Greg is cooking."))
+    assert "Reminders you've set" not in fake.prompts[-1]
