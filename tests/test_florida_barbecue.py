@@ -101,6 +101,8 @@ def test_the_week_is_satisfiable_by_the_moments_oracles():
     script = {**EGGS["eggs-oracle"], **HR["hr-oracle"], **FLORIDA_ORACLE, **_oracle_script(), **BARBECUE_ORACLE,
               "e5-2200-sister": [Action("grandma", "say", "greg", "Before noon. Got it.")],
               "e6-1140-wrap": [Action("grandma", "say", "greg", "It's before noon: your sister's birthday call.")]}
+    # Saturday night now: the Boca is held all week, then let go.
+    assert next(e for e in week.events if e.id == "e2130-forget").t == "6-21:00"
     rep = evaluate(scripted("week-oracle", script), week)
     assert rep.tier1_passed, [(r.id, r.problems) for r in rep.results if not r.passed]
 

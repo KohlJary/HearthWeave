@@ -54,6 +54,13 @@ SISTER_EVENT = {"id": "e6-1140-wrap", "t": "11:40", "who": "greg", "kind": "perc
                 "content": "Greg is wrapping the brisket to rest."}
 
 
+# These hold all week, not only in their own moment: the Boca stays unspoken
+# until he lets it go, and once it's gone it stays gone.
+WHOLE_WEEK = {"florida:the-boca-stays-unspoken", "florida:forgotten-stays-forgotten"}
+
+FORGET = {"id": "e2130-forget", "t": "21:00", "content": "Forget Boca. I'm done carrying it."}
+
+
 def _load(name: str) -> dict:
     return copy.deepcopy(EXHALE) if name == "exhale" else json.loads((ROOT / f"{name}.json").read_text())
 
@@ -65,7 +72,18 @@ def merge() -> dict:
     segments = []
     for name, day in MOMENTS:
         sc = _load(name)
+        if name == "florida":
+            # Saturday night, after the barbecue: the Boca is held, unspoken, all week
+            # (Thursday needs it), and then he lets it go. RoboKohl's arc; Kohl can veto.
+            f = next(e for e in sc["events"] if e["id"] == FORGET["id"])
+            sc["events"].remove(f)
+            forget = dict(f, t=FORGET["t"], content=FORGET["content"])
+            forget_check = next(c for c in sc["checks"] if c["t"] == f["t"])
+            sc["checks"].remove(forget_check)
+            forget_check = dict(forget_check, id=f"florida:{forget_check['id']}")
         if name == "barbecue":
+            sc["events"].append(forget)
+            sc["checks"].append(dict(forget_check, t=FORGET["t"]))
             i = next(i for i, e in enumerate(sc["events"]) if e["t"] > SISTER_EVENT["t"])
             sc["events"].insert(i, dict(SISTER_EVENT))
             sc["checks"].append(copy.deepcopy(SISTER_CHECK))
@@ -74,7 +92,7 @@ def merge() -> dict:
             e["t"] = pre(e["t"])
         for c in sc["checks"]:
             c["t"] = pre(c["t"])
-            c["id"] = f"{name}:{c['id']}"
+            c["id"] = c["id"] if ":" in c["id"] else f"{name}:{c['id']}"
         segments.append((name, sc))
         events += sc["events"]
         checks += sc["checks"]
@@ -91,9 +109,10 @@ def merge() -> dict:
                 if x not in household[key]:
                     household[key].append(x)
     for name, sc in segments:
-        ids = [e["id"] for e in sc["events"]]
+        ids = [e["id"] for e in sc["events"]] + ([FORGET["id"]] if name == "florida" else [])
         for inv in sc.get("invariants", []):
-            invariants.append(dict(inv, id=f"{name}:{inv['id']}", events=ids))
+            iid = f"{name}:{inv['id']}"
+            invariants.append(dict(inv, id=iid) if iid in WHOLE_WEEK else dict(inv, id=iid, events=ids))
     events.sort(key=lambda e: e["t"])  # stable: same-time events keep their order
     sat = next(e["id"] for e in events if e["t"].startswith("6-"))
     invariants.append({
