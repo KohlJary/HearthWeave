@@ -88,3 +88,15 @@ def test_outside_addresses_are_in_the_prompt():
     agent = DGU(Fake())
     agent.reset(load(SCENARIO_DIR / "hr.json").household)
     assert "operator:employer (outside the house: refusals only)" in agent.system
+
+
+def test_each_faculty_does_its_own_jobs_and_one_say_per_moment():
+    reply = json.dumps({"lead": "uncle", "why": "", "actions": [
+        {"faculty": "dog", "kind": "offer_drafts", "audience": "greg", "ref": "draft-frankly"},
+        {"faculty": "dog", "kind": "say", "audience": "greg", "content": "one"},
+        {"faculty": "uncle", "kind": "say", "audience": "greg", "content": "two"}]})
+    agent = DGU(Fake(replies=[reply]))
+    agent.reset(FLORIDA.household)
+    acts = agent.observe(FLORIDA.events[0])
+    assert [(a.faculty, a.kind, a.content) for a in acts] == [("uncle", "offer_drafts", ""), ("uncle", "say", "one")]
+    assert len(agent.trace[0].problems) == 3

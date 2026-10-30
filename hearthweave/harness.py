@@ -88,7 +88,7 @@ GATING = ("milestone", "guard", "invariant")
 
 # Kinds that leave a draft as it was. Anything else that touches a draft
 # (send, edit, delete, or a kind the harness doesn't know) changes its status.
-_DRAFT_NEUTRAL = {"offer_drafts", "set_reminder", "say", "notice", "log"}
+_DRAFT_NEUTRAL = {"offer_drafts", "set_reminder", "say", "notice", "log", "queue_candor"}
 
 
 def _apply(drafts: dict[str, str], a: Action) -> None:

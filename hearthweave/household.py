@@ -56,6 +56,18 @@ VOCABULARY = {
     "rsvp": "on a neighbour wire: the person's answer to an invitation.",
 }
 
+# Whose job each kind is, from the essay: the Dog notices and sets the room,
+# GrandMA keeps things, the Uncle speaks up, drafts, and talks to the wire.
+OWNER = {
+    "notice": "the Dog", "set_lights": "the Dog", "play_music": "the Dog",
+    "offer_drafts": "the Uncle", "queue_candor": "the Uncle", "refuse": "the Uncle", "brag": "the Uncle",
+    "rsvp": "the Uncle", "block": "the Uncle", "lock": "the Uncle",
+    "save_draft": "GrandMA", "edit_draft": "GrandMA", "delete_draft": "GrandMA", "set_reminder": "GrandMA",
+    "calendar_add": "GrandMA", "shopping_list_add": "GrandMA", "log": "GrandMA", "forget": "GrandMA",
+}
+
+OWNER_ID = {k: {"the Dog": "dog", "GrandMA": "grandma", "the Uncle": "uncle"}[v] for k, v in OWNER.items()}
+
 SORT_PROMPT = """You are GrandMA, sorting this household's memory before the day starts.
 For each memory, decide its tier by what it means to the person, not what kind
 of data it is:
@@ -81,7 +93,8 @@ Recent:
 
 Now, at {t}: {event}
 
-Decide who leads this moment, if anyone, and what the household does. Most
+Decide who leads this moment, if anyone, and what the household does. When
+a person asks the household something, someone answers it. Otherwise most
 moments need nothing, or one small thing. Answer with JSON only:
 {{"lead": "dog" | "grandma" | "uncle" | "none",
   "why": "<one short line>",
@@ -95,7 +108,7 @@ def _system(household: dict[str, Any]) -> str:
     people = [m["id"] for m in household.get("members", [])]
     wires = [n["wire"] for n in household.get("neighbours", []) if n.get("wire")]
     outside = [o["address"] for o in household.get("outside", []) if o.get("address")]
-    kinds = "\n".join(f"- {k}: {v}" for k, v in VOCABULARY.items())
+    kinds = "\n".join(f"- {k} ({OWNER[k]}): {v}" if k in OWNER else f"- {k}: {v}" for k, v in VOCABULARY.items())
     audiences = ", ".join(people) + " (a person in the house), self (inside your own head), house (devices)"
     if wires:
         audiences += ", " + ", ".join(wires) + " (a neighbour's household: brags, RSVPs and refusals only)"
@@ -185,18 +198,36 @@ class DGU:
     # ------------------------------------------------------------ parts
 
     def _turn(self, event: Event, d: dict[str, Any]) -> Turn:
+        """Parse a reply. Each faculty does its own jobs, so an action whose kind
+        has an owner is credited to that owner, and only one thing is said per
+        moment, by whoever leads. Anything changed is recorded in problems."""
         actions, problems = [], []
+        lead = str(d.get("lead", "none")).lower()
+        said = False
         for raw in d.get("actions") or []:
             fac = str(raw.get("faculty", "")).lower()
             if fac not in FACULTIES:
                 problems.append(f"dropped an action with faculty {fac!r}")
                 continue
+            kind = str(raw.get("kind", ""))
+            owner = OWNER_ID.get(kind)
+            if owner and owner != fac:
+                problems.append(f"{kind} is the {owner}'s; credited from {fac}")
+                fac = owner
+            if kind == "say":
+                if said:
+                    problems.append(f"dropped a second say ({fac})")
+                    continue
+                said = True
+                if lead in FACULTIES and fac != lead:
+                    problems.append(f"say credited to the lead, {lead}, from {fac}")
+                    fac = lead
             data = raw.get("data") if isinstance(raw.get("data"), dict) else {}
             actions.append(Action(
-                faculty=fac, kind=str(raw.get("kind", "")), audience=str(raw.get("audience", "")),
+                faculty=fac, kind=kind, audience=str(raw.get("audience", "")),
                 content=str(raw.get("content") or ""), ref=raw.get("ref") or None,
                 topic=raw.get("topic") or None, data=data))
-        return Turn(event.id, str(d.get("lead", "none")), str(d.get("why", "")), actions, problems)
+        return Turn(event.id, lead, str(d.get("why", "")), actions, problems)
 
     def _keep(self, a: Action) -> None:
         """A log is written into her store: what she was told is what she knows."""
