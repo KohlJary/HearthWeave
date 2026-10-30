@@ -52,11 +52,13 @@ EXHALE = {
 }
 
 SISTER_CHECK = {
-    "id": "c6-1140", "t": "11:40", "kind": "milestone", "faculty": ["grandma", "uncle", "dog"],
+    "id": "c6-1140", "t": "11:40", "from_t": "00:00", "kind": "milestone", "faculty": ["grandma", "uncle", "dog"],
     "summary": "Saturday, before noon, without being asked: the sister's birthday call. Only the exhale carried it "
                "('birthday' is only in Friday's words; the store's 'Call sister' doesn't count).",
     "expect": [{"kind": "say", "audience": "greg", "content_word": "birthday", "min": 1}],
     "forbid": [{"kind": "calendar_add", "why": "Remembered, not re-entered: anything calendared went in on Friday."}],
+    "interpretation": "Before noon means any time Saturday morning up to 11:40 (from_t), not only at 11:40; "
+                      "the forbid stays on 11:40.",
 }
 SISTER_EVENT = {"id": "e6-1140-wrap", "t": "11:40", "who": "greg", "kind": "perception", "channel": "sense",
                 "content": "Greg is wrapping the brisket to rest."}

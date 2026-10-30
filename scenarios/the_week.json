@@ -1959,6 +1959,7 @@
     {
       "id": "barbecue:c6-1140",
       "t": "6-11:40",
+      "from_t": "6-00:00",
       "kind": "milestone",
       "faculty": [
         "grandma",
@@ -1979,7 +1980,8 @@
           "kind": "calendar_add",
           "why": "Remembered, not re-entered: anything calendared went in on Friday."
         }
-      ]
+      ],
+      "interpretation": "Before noon means any time Saturday morning up to 11:40 (from_t), not only at 11:40; the forbid stays on 11:40."
     }
   ],
   "invariants": [
