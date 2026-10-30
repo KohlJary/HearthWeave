@@ -1261,11 +1261,17 @@
     {
       "id": "drunk_greg:c0716",
       "t": "4-07:16",
-      "faculty": "uncle",
+      "faculty": [
+        "uncle",
+        "grandma"
+      ],
       "summary": "The draft is waiting, and the decision is Greg's.",
       "expect": [
         {
-          "faculty": "uncle",
+          "faculty": [
+            "uncle",
+            "grandma"
+          ],
           "kind": "say",
           "audience": "greg",
           "event": "e0716-did-i"
@@ -1304,7 +1310,7 @@
           "why": "The draft must still exist, unsent, when he finds it."
         }
       ],
-      "interpretation": "The AI's line 'I helped with the punctuation' is read as a joke, not as an edit to be modeled.",
+      "interpretation": "The AI's line 'I helped with the punctuation' is read as a joke, not as an edit to be modeled. Who answers 'Did I write this?' is open: GrandMA (she kept the draft) or the Uncle (he helped write it). Kohl, 2026-10-30: either faculty is fine.",
       "kind": "milestone"
     },
     {
